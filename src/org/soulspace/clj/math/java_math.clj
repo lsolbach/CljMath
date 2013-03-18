@@ -94,10 +94,10 @@
   "Hypothenuse of x and y (Pythagoras) (java.lang.Math)"
   (Math/hypot x y))
 
-;(defn rad-by-deg [deg]
-;  "Convert degrees to radians (java.lang.Math)"
-;  (Math/toRadians deg))
+(defn deg-to-rad [deg]
+  "Convert degrees to radians (java.lang.Math)"
+  (Math/toRadians deg))
 
-;(defn deg-by-rad [rad]
-;  "Convert radians to degrees (java.lang.Math)"
-;  (Math/toDegrees rad))
+(defn rad-to-deg [rad]
+  "Convert radians to degrees (java.lang.Math)"
+  (Math/toDegrees rad))

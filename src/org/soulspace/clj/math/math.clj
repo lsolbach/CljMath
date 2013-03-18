@@ -13,14 +13,6 @@
 (def epsilon 0.001)
 (def dx 0.0000001)
 
-(defn deg-by-rad [rad]
-  "Convert radians to degrees (java.lang.Math)"
-  (* (/ 180 pi) rad))
-
-(defn rad-by-deg [deg]
-  "Convert degrees to radians"
-  (* deg (/ pi 180)))
-
 (defn sqr [x]
   "square of x"
   (* x x))

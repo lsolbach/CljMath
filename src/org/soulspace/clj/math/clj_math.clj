@@ -17,3 +17,14 @@
 
 (defn cbrt [x]
   (fixed-point (average-damp (fn [y] (/ x (sqr y)))) 1.0))
+
+; pi is not defined here
+
+;(defn rad-to-deg [rad]
+;  "Convert radians to degrees"
+;  (* (/ 180 pi) rad))
+
+;(defn deg-to-rad [deg]
+;  "Convert degrees to radians"
+;  (* deg (/ pi 180)))
+
