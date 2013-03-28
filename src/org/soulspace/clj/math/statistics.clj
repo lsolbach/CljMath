@@ -8,6 +8,7 @@
 ;(defn geometric-average [coll]
 ;  "Returns the geometric average"
 ;  (pow (* coll) (- (count coll))))
+
 (def geometric-average avg)
 
 (defn harmonic-average [coll]
@@ -100,11 +101,3 @@
 
 (defn q-value [q coll]
   (* (count coll) q))
-
-(variance [2 2 2])
-(variance [1 2 3 4])
-(deviation [1 2 3])
-(covariance [1 2 3 4] [1 2 3 4])
-(linear-regression [1 2 3 4] [1 2 3 5])
-(sort [2 8 3 2 1 2])
-(quantile (/ 1 2) [1 2 3 4 5 6 7 8])
