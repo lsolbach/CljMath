@@ -1,11 +1,12 @@
 (ns org.soulspace.clj.math.complex
   (:use [org.soulspace.clj.math math java-math]))
 
+(set! *warn-on-reflection* true)
 (declare complex)
 
 ; Complex numbers
 (defprotocol Complex
-  "Protocol for complex numbers in euler form."
+  "Protocol for complex numbers in algebraic form."
   (real [c] "Real part of the complex number.")
   (img [c] "Imaginary part of the complex number.")
   (add [c c2] "Addition of complex numbers.")
@@ -14,6 +15,7 @@
   (div [c c2] "Division of complex numbers.")
   (sqr-complex [c] "Square of the complex number.")
   (sqrt-complex [c] "Square root of the complex number.")
+  (abs-complex [c] "Absolute or norm of the complex number.")
   (conjugate [c] "Conjugate of the complex number.")
   (to-polar [c] "Polar form of the complex number."))
 
@@ -28,11 +30,12 @@
                  (+ (* (:real c) (:img c2)) (* (:img c) (:real c2)))))
   (div [c c2]
        (complex (/ (+ (* (:real c) (:real c2)) (* (:img c) (:img c2)))
-                   (+ (sqr (real c2)) (sqr (img c2))))
+                   (+ (sqr (:real c2)) (sqr (:img c2))))
                 (/ (- (* (:img c) (:real c2)) (* (:real c) (:img c2)))
-                   (+ (sqr (real c2)) (sqr (img c2))))))
+                   (+ (sqr (:real c2)) (sqr (:img c2))))))
   (sqr-complex [c] (mult c c))
   (sqrt-complex [c])
+  (abs-complex [c] (sqrt (+ (sqr (:real c)) (sqr (:img c)))))
   (conjugate [c] (complex (:real c) (* -1 (:img c))))
   (to-polar [c]
             (cond

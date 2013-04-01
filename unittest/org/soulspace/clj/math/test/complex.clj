@@ -36,6 +36,19 @@
   (is (= (mult (i) (one)) (i)))
   )
 
+(deftest sub-test
+  (is (= (sub (zero) (zero)) (zero)))
+  )
+
+(deftest div-test
+  (is (= (div (one) (one)) (one)))
+  )
+
+(deftest conjugate-test
+  (is (= (conjugate (complex 1 3)) (complex 1 -3)))
+  (is (= (conjugate (complex 1 -3)) (complex 1 3)))
+  )
+
 (deftest to-polar-test
   )
 
