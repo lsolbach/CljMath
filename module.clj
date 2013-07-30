@@ -1,9 +1,9 @@
 [
- :name "CljMathLibrary"
+ :module "CljMathLibrary"
  :project "org.soulspace.clj"
- :type "library"
+ :type :library
  :version "0.2.0"
  :description "Clojure math library"
- :plugins ["global" "deps" "clojure" "package"]
- :dependencies [["org.clojure" "clojure" "1.3.0"]]
+ :plugins ["global" "sdeps" "clojure" "package"]
+ :dependencies [[["org.clojure" "clojure" "1.5.1"]]]
  ]
