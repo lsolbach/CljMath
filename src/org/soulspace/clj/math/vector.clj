@@ -9,23 +9,31 @@
 ;
 (ns org.soulspace.clj.math.vector)
 
+(defprotocol Vector
+  ""
+  )
+
 (defn addition
+  "Adds the vectors."
   [a b]
   (if (= (count a) (count b))
     (vec (map + a b))
-    (throw (IllegalArgumentException. "Vectors are not of the same size."))))
+    (throw (IllegalArgumentException. "The vectors are not of the same size."))))
 
 (defn substraction
+  "Substracts the vectors."
   [a b]
   (if (= (count a) (count b))
     (vec (map - a b))
     (throw (IllegalArgumentException. "Vectors are not of the same size."))))
 
 (defn scalar-product
+  "Returns the scalar product of the vectors."
   [r a]
   (vec (map #(* r %) a)))
 
 (defn dot-product
+  "Returns the dot product of the vectors."
   [a b]
   (if (= (count a) (count b))
     (reduce + (map * a b))

@@ -117,12 +117,14 @@
      (* (deviation coll1) (deviation coll2))))
 
 (defn linear-regression
-  "Returns [a b] y = ax + b"
+  "Returns a vector [a b] of the linear regession coefficients for the equation y = ax + b."
   [coll1 coll2]
   (let [mu1 (avg coll1)
         mu2 (avg coll2)
         a (/ (covariance coll1 coll2) (variance coll1))]
     [a (- mu2 (* a mu1))]))
 
-(defn q-value [q coll]
+(defn q-value
+  ""
+  [q coll]
   (* (count coll) q))

@@ -9,104 +9,132 @@
 ;
 (ns org.soulspace.clj.math.java-math)
 
+; clojure wrapper for java.lang.Math 
+
 (def pi
   (Math/PI))
 
 (def e
   (Math/E))
 
-(defn abs [x]
-  "Absolute of x (java.lang.Math)"
+(defn abs
+  "Calculates the absolute of x (with java.lang.Math)."
+  [x]
   (Math/abs x))
 
-(defn sign [x]
-  "Sign of x (java.lang.Math)"
+(defn sign
+  "Calculates the sign of x (with java.lang.Math)."
+  [x]
   (Math/signum x))
 
-(defn floor [x]
-  "Floor of x (java.lang.Math)"
+(defn floor
+  "Calculates the floor of x (with java.lang.Math)."
+  [x]
   (Math/floor x))
 
-(defn ceil [x]
-  "Ceiling of x (java.lang.Math)"
+(defn ceil
+  "Calculates the ceiling of x (with java.lang.Math)."
+  [x]
   (Math/ceil x))
 
-(defn sqrt [x]
-  "Square root of x (java.lang.Math)"
+(defn sqrt
+  "Calculates the square root of x (with java.lang.Math)."
+  [x]
   (Math/sqrt x))
 
-(defn cbrt [x]
-  "Cubic root of x (java.lang.Math)"
+(defn cbrt
+  "Calculates the cubic root of x (with java.lang.Math)."
+  [x]
   (Math/cbrt x))
 
-(defn pow [x y]
-  "x raised to the power of y (java.lang.Math)"
+(defn pow
+  "Calculates x raised to the power of y (with java.lang.Math)."
+  [x y]
   (Math/pow x y))
 
-(defn exp [x]
-  "Exponential function of x (java.lang.Math)"
+(defn exp
+  "Calculates the exponential function of x (with java.lang.Math)."
+  [x]
   (Math/exp x))
 
-(defn expm1 [x]
+(defn expm1
+  ""
+  [x]
   (Math/expm1 x))
 
-(defn log [x]
-  "Natural logarithm (with base e) of x (java.lang.Math)"
+(defn log
+  "Calculates the natural logarithm (with base e) of x (with java.lang.Math)."
+  [x]
   (Math/log x))
 
-(defn log10 [x]
-  "Logarithm base 10 of x (java.lang.Math)"
+(defn log10
+  "Calculates the logarithm with base 10 of x (with java.lang.Math)."
+  [x]
   (Math/log10 x))
 
-(defn log1p [x]
+(defn log1p
+  ""
+  [x]
   (Math/log1p x))
 
 ; Trigonometrical functions
 
-(defn cos [x]
-  "Cosine of x (java.lang.Math)"
+(defn cos
+  [x]
+  "Calculates the cosine of x (with java.lang.Math)."
   (Math/cos x))
 
-(defn sin [x]
-  "Sine of x (java.lang.Math)"
+(defn sin
+  "Calculates the sine of x (with java.lang.Math)."
+  [x]
   (Math/sin x))
 
-(defn tan [x]
-  "Tangens of x (java.lang.Math)"
+(defn tan
+  "Calculates the tangens of x (with java.lang.Math)."
+  [x]
   (Math/tan x))
 
-(defn acos [x]
-  "Arc cosine of x (java.lang.Math)"
+(defn acos
+  "Calculates the arc cosine of x (with java.lang.Math)."
+  [x]
   (Math/acos x))
 
-(defn asin [x]
-  "Arc sine of x (java.lang.Math)"
+(defn asin
+  "Calculates the arc sine of x (with java.lang.Math)."
+  [x]
   (Math/asin x))
 
-(defn atan [x]
-  "Arc tangens of x (java.lang.Math)"
+(defn atan
+  "Calculates the arc tangens of x (with java.lang.Math)."
+  [x]
   (Math/atan x))
 
-(defn cosh [x]
-  "Hyperbolic cosine of x (java.lang.Math)"
+(defn cosh
+  "Calculates the hyperbolic cosine of x (with java.lang.Math)."
+  [x]
   (Math/cosh x))
 
-(defn sinh [x]
-  "Hyperbolic sine of x (java.lang.Math)"
+(defn sinh
+  "Calculates the hyperbolic sine of x (with java.lang.Math)."
+  [x]
   (Math/sinh x))
 
-(defn tanh [x]
-  "Hyperbolic tangens of x (java.lang.Math)"
+(defn tanh
+  "Calculates the hyperbolic tangens of x (with java.lang.Math)."
+  [x]
   (Math/tanh x))
 
-(defn hypot [x y]
-  "Hypothenuse of x and y (Pythagoras) (java.lang.Math)"
+(defn hypot
+  "Calculates the hypothenuse of x and y (Pythagoras) (with java.lang.Math)."
+  [x y]
   (Math/hypot x y))
 
-(defn deg-to-rad [deg]
-  "Convert degrees to radians (java.lang.Math)"
+(defn deg-to-rad
+  "Converts degrees to radians (with java.lang.Math)."
+  [deg]
   (Math/toRadians deg))
 
-(defn rad-to-deg [rad]
-  "Convert radians to degrees (java.lang.Math)"
+(defn rad-to-deg
+  "Converts radians to degrees (with java.lang.Math)."
+  [rad]
   (Math/toDegrees rad))

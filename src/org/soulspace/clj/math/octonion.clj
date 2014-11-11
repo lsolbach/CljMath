@@ -10,3 +10,7 @@
 (ns org.soulspace.clj.math.octonion)
 
 ; Octonions, hyper complex numbers of dimension 8
+
+(defprotocol Octonions
+  "Protocol for octonions, hyper complex numbers of the 8th dimension."
+  )

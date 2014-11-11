@@ -11,3 +11,6 @@
 
 ; Quarternions, hyper complex numbers of dimension 4
 
+(defprotocol Quaternion
+  "Protocol for quarternions, hyper complex numbers of 4th dimension."
+  )

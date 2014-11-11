@@ -8,23 +8,25 @@
 ;   You must not remove this notice, or any other, from this software.
 ;
 (ns org.soulspace.clj.math.clj-math
-  (:use
-    [org.soulspace.clj.math.math :only [sqr fixed-point average-damp]]
-    ))
+  (:use [org.soulspace.clj.math.math :only [sqr fixed-point average-damp]]))
 
-; clojure implementation of mathematical functions
+; clojure implementation of some mathematical functions
 
-(defn exp [b n]
+(defn exp
+  [b n]
   (cond 
     (= n 0) 1
     (even? n) (sqr (exp b (/ n 2)))
     :default (* b (exp b (- n 1)))))
 
-(defn sqrt [x]
-  "square root of x"
+(defn sqrt
+  "Calculates the square root of x."
+  [x]
   (fixed-point (average-damp (fn [y] (/ x y))) 1.0))
 
-(defn cbrt [x]
+(defn cbrt
+  "Calculates the cubic root of x."
+  [x]
   (fixed-point (average-damp (fn [y] (/ x (sqr y)))) 1.0))
 
 ; pi is not defined here

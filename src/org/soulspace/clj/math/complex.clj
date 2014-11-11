@@ -28,7 +28,15 @@
   (conjugate [c] "Conjugate of the complex number.")
   (to-polar [c] "Polar form of the complex number."))
 
-(defrecord DoubleComplexImpl [^double real ^double img]
+(defprotocol PolarComplex
+  "Protocol for complex numbers in polar format."
+  (r [p] "")
+  (a [p] "")
+  (sqrt-polar [p])
+  (to-complex [p]))
+
+(defrecord DoubleComplexImpl
+  [^double real ^double img]
   Complex
   (real [c] (:real c))
   (img [c] (:img c))
@@ -43,7 +51,7 @@
                 (/ (- (* (:img c) (:real c2)) (* (:real c) (:img c2)))
                    (+ (sqr (:real c2)) (sqr (:img c2))))))
   (sqr-complex [c] (mult c c))
-  (sqrt-complex [c])
+  (sqrt-complex [c]) ; TODO implement sqrt
   (abs-complex [c] (sqrt (+ (sqr (:real c)) (sqr (:img c)))))
   (conjugate [c] (complex (:real c) (* -1 (:img c))))
   (to-polar [c]
@@ -53,14 +61,8 @@
               (< (:real c) 0) [(sqrt (+ (sqr (:real c)) (sqr (:img c)))) (+ pi (atan (/ (:img c) (:real c))))]
               :default [(sqrt (+ (sqr (:real c)) (sqr (:img c)))) (atan (/ (:img c) (:real c)))])))
 
-(defprotocol PolarComplex
-  "Protocol for complex numbers in polar format"
-  (r [p] "")
-  (a [p] "")
-  (sqrt-polar [p])
-  (to-complex [p]))
-
-(defrecord DoublePolarComplexImpl [^double r ^double a]
+(defrecord DoublePolarComplexImpl
+  [^double r ^double a]
   PolarComplex
   (r [p] (:r p))
   (a [p] (:a p))
@@ -69,19 +71,30 @@
               (mult (complex (:r p)) (complex (cos (:a p)) (sin (:a p))))))
 
 (defn complex
+  "Creates a complex number from real and imaginary parts."
   ([r]
     (DoubleComplexImpl. r 0))
   ([r i]
     (DoubleComplexImpl. r i)))
 
-(defn polar-complex [r a]
+(defn polar-complex
+  "Creates a complex number from polar coordinates."
+  [r a]
   (DoublePolarComplexImpl. r a))
 
-(defn zero []
+; TODO define and use constants
+
+(defn zero
+  "Returns the complex number zero."
+  []
   (complex 0 0))
 
-(defn one []
+(defn one
+  "Returns the complex number one."
+  []
   (complex 1 0))
 
-(defn i []
+(defn i
+  "Returns the complex number i"
+  []
   (complex 0 1))

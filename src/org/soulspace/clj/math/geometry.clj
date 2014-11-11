@@ -13,9 +13,13 @@
     [org.soulspace.clj.math.java-math :only [pi]]
     ))
 
-(defn circle-circumference [r]
+(defn circle-circumference
+  "Calculates the circumference of the circle with radius r."
+  [r]
   (* 2 (pi) r))
 
-(defn circle-area [r]
+(defn circle-area
+  "Calculates the area of the circle with radius r."
+  [r]
   (* (pi) (sqr r)))
 
