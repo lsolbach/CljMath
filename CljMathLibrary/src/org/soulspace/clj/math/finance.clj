@@ -33,12 +33,12 @@
     x))
 
 (defn percent
-  ""
+  "Converts a percent value to a decimal value."
   [x]
   (/ x 100))
 
 (defn percentage
-  ""
+  "Converts a decimal value to a percent value."
   [x]
   (* x 100))
 
@@ -53,11 +53,12 @@
   (* kn (1 - i)))
 
 (defn cash-value
-  ""
+  "Calculates the cash value of a value 'kn' with interest 'q' before 'n' periods."
   [kn q n]
   (* kn (/ 1 (pow q n))))
 
 (defn accumulated-value
+  "Calculates the accumulated value of a base value 'k0' with interest 'q' after 'n' periods."
   [k0 q n]
   (* k0 (pow q n)))
 
@@ -76,6 +77,7 @@
     (/ 1 (pow q m))))
 
 (defn annuity-factor
+  "Calculates the annuity factor for interest 'q' and 'n' periods."
   [q n]
   (/ 
     (* (pow q n) (- q 1)) 
@@ -86,6 +88,7 @@
   (accumulated-rates r q n))
 
 (defn annuity-rate
+  "Calculates the annuity rates for a base value 'k0' with interest 'q' and 'n' periods."
   [k0 q n]
   (* k0 (annuity-factor q n)))
 

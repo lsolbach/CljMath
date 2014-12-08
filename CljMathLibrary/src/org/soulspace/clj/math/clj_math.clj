@@ -13,6 +13,7 @@
 ; clojure implementation of some mathematical functions
 
 (defn exp
+  "Calculates the exponential function."
   [b n]
   (cond 
     (= n 0) 1
@@ -38,4 +39,3 @@
 ;(defn deg-to-rad [deg]
 ;  "Convert degrees to radians"
 ;  (* deg (/ pi 180)))
-
