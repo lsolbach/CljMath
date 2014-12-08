@@ -47,6 +47,7 @@
     (gcd y (rem x y))))
 
 (defn round-up
+  "Rounds a value."
   [x n]
   (/ (floor (+ (* x (exp 10 n)) 0.5)) (exp 10 n )))
 
@@ -56,6 +57,7 @@
   (< (abs (- x y)) epsilon))
 
 (defn average-damp [f]
+  "Returns a function with average dampening for the given function."
   (fn [x] (avg x (f x))))
 
 
@@ -123,6 +125,7 @@
        dx)))
 
 (defn newton-transform
+  "Returns a function which is the newton transfomation of the given function."
   [g]
   (fn [x]
     (- x (/ (g x) ((deriv g) x)))))
