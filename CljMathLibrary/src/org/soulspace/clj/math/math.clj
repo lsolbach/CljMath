@@ -27,6 +27,16 @@
   [x]
   (* x x))
 
+(defn hav
+  "Calculates the haversine function of the angle a."
+  [x]
+  (sqr (sin (/ x 2))))
+
+(defn ahav
+  "Calculates the arc haversine function of the value v."
+  [x]
+  (* 2 (asin (sqrt x))))
+
 (defn cube
   "Calculates the cube of x."
   [x]
