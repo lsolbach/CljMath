@@ -109,6 +109,16 @@
   [x]
   (Math/atan x))
 
+(defn hav
+  "Calculates the haversine function of the angle a."
+  [x]
+  (sqr (sin (/ x 2))))
+
+(defn ahav
+  "Calculates the arc haversine function of the value v."
+  [x]
+  (* 2 (asin (sqrt x))))
+
 (defn cosh
   "Calculates the hyperbolic cosine of x (with java.lang.Math)."
   [x]
