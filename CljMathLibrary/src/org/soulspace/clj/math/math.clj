@@ -27,6 +27,15 @@
   [x]
   (* x x))
 
+(defn atan2 [a b]
+  "Calculates the arc tangens of a/b. Returns the result in the correct quadrant."
+  (let [r (atan (/ a b))] ; TODO handle b = 0 case
+    (cond
+      (< b 0) (if (< a 0)
+                 (- r pi) ; adjust quadrant 
+                 (+ r pi)) ; adjust quadrant
+      :default r)))
+
 (defn hav
   "Calculates the haversine function of the angle a."
   [x]
