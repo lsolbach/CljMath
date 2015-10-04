@@ -19,6 +19,8 @@
 ; 'Structure and Interpretation of Computer Programs'
 ; by Abelson, Sussman and Sussman
 
+;(set! *warn-on-reflection* true)
+
 (def epsilon 0.001)
 (def dx 0.0000001)
 
@@ -64,6 +66,15 @@
   (if (= y 0)
     x
     (gcd y (rem x y))))
+
+; TODO this fn is subject to StachOverflowException, find better implementation.
+(defn primes
+  "Returns a lazy sequence of primes."
+  ([]
+    (primes (iterate inc 2)))
+  ([s]
+    (cons (first s)
+          (lazy-seq (primes (filter #(not= 0 (mod % (first s))) (rest s)))))))
 
 (defn round-up
   "Rounds a value."
@@ -163,7 +174,7 @@
 
 (defn factorial
   "Calculates the factorial of x."
-  [x]
+  [^long x]
   (loop [curr x fact 1]
     (cond
       (<= curr 0) 0
@@ -172,7 +183,7 @@
 
 (defn fibonacci
   "Calculates the fibonacci number of x."
-  [x]
+  [^long x]
   (loop [a 1 b 0 cnt x]
     (cond
       (= cnt 0) b

@@ -10,6 +10,7 @@
 (ns org.soulspace.clj.math.java-math)
 
 ; clojure wrapper for java.lang.Math 
+(set! *warn-on-reflection* true)
 
 (def pi
   (Math/PI))
@@ -19,12 +20,12 @@
 
 (defn abs
   "Calculates the absolute of x (with java.lang.Math)."
-  [x]
+  ^double [^double x]
   (Math/abs x))
 
 (defn sign
   "Calculates the sign of x (with java.lang.Math)."
-  [x]
+  ^double [^double x]
   (Math/signum x))
 
 (defn floor
