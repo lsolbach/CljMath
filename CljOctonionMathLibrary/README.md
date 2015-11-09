@@ -1,6 +1,6 @@
-CljMathLibrary
-==============
-The CljMathLibrary is a library with mathematical functions.
+CljOctonionMathLibrary
+======================
+The CljComplexMathLibrary is a library for octonion numbers.
 
 Author/Project Lead
 -------------------
@@ -16,4 +16,4 @@ License
 
 Code Repository
 ---------------
-[https://github.com/lsolbach/CljMath/CljMathLibrary] (https://github.com/lsolbach/CljMath/CljMathLibrary)
+[https://github.com/lsolbach/CljOctonionMathLibrary] (https://github.com/lsolbach/CljOctonionMathLibrary)

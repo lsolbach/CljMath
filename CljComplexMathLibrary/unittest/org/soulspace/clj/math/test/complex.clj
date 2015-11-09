@@ -9,7 +9,9 @@
 ;
 (ns org.soulspace.clj.math.test.complex
   (:use [clojure.test]
-        [org.soulspace.clj.math.complex]))
+        [org.soulspace.clj.math.complex])
+  ;(:import [org.soulspace.clj.math.complex DoublePolarComplexImpl DoubleComplexImpl])
+  )
 
 (deftest complex-test
   )

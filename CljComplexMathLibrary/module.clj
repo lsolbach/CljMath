@@ -1,13 +1,14 @@
 [
- :module "CljMathLibrary"
+ :module "CljComplexMathLibrary"
  :project "org.soulspace.clj"
  :type :library
  :version "0.3.0"
- :description "Clojure math library"
+ :description "The CljComplexMathLibrary is a library for complex numbers"
  :plugins ["global"
            ["org.soulspace.baumeister/DependencyPlugin"]
            ["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]
- :dependencies [["org.clojure/clojure, 1.7.0"]]
+ :dependencies [["org.clojure/clojure, 1.7.0"]
+                ["org.soulspace.clj/CljMathLibrary, 0.3.0"]]
  ]
