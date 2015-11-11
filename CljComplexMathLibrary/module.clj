@@ -5,7 +5,6 @@
  :version "0.3.0"
  :description "The CljComplexMathLibrary is a library for complex numbers"
  :plugins ["global"
-           ["org.soulspace.baumeister/DependencyPlugin"]
            ["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]
