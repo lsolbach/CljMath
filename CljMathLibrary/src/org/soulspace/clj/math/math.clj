@@ -8,10 +8,9 @@
 ;   You must not remove this notice, or any other, from this software.
 ;
 (ns org.soulspace.clj.math.math
-  (:use 
-    [org.soulspace.clj.math.java-math 
-     ;:only [pi e floor abs exp sin]
-     ]))
+  (:use [org.soulspace.clj.math.java-math 
+         ;:only [pi e floor abs exp sin]
+         ]))
 
 ; mathematical functions 
 
@@ -28,6 +27,18 @@
   "Calculates the square of x."
   [x]
   (* x x))
+
+(defn cube
+  "Calculates the cube of x."
+  [x]
+  (* x x x))
+
+(defn avg 
+  "Calculates the avarage of x and y or of the values of coll."
+  ([x y]
+    (/ (+ x y) 2))
+  ([coll]
+    (/ (reduce + 0 coll) (count coll))))
 
 (defn atan2 [a b]
   "Calculates the arc tangens of a/b. Returns the result in the correct quadrant."
@@ -48,17 +59,34 @@
   [x]
   (* 2 (asin (sqrt x))))
 
-(defn cube
-  "Calculates the cube of x."
+(defn- tau
   [x]
-  (* x x x))
+  (let [t (/ 1
+             (+ 1 (* 1/2 (abs x))))]
+    (- 1 (* t (exp (+ (* -1 x x)
+                      -1.26551223
+                      (* 1.00002368 t)
+                      (* 0.37409196 t t)
+                      (* 0.09678418 t t t)
+                      (* -0.18628806 t t t t)
+                      (* 0.27886807 t t t t t)
+                      (* -1.13520398 t t t t t t)
+                      (* 1.48851587 t t t t t t t)
+                      (* -0.82215223 t t t t t t t t)
+                      (* 0.17087277 t t t t t t t t t)))))))
 
-(defn avg 
-  "Calculates the avarage of x and y or of the values of coll."
-  ([x y]
-    (/ (+ x y) 2))
-  ([coll]
-    (/ (reduce + 0 coll) (count coll))))
+(defn erf
+  "Calculates the gaussian error function."
+  [x]
+  (let [z (tau x)]
+    (if (>= x 0)
+      z
+      (* -1 z))))
+
+(defn erfc
+  "Calculates the complementary gaussian error function."
+  [x]
+  )
 
 (defn gcd
   "Calculates the greatest common divisor of x and y"
@@ -89,7 +117,6 @@
 (defn average-damp [f]
   "Returns a function with average dampening for the given function."
   (fn [x] (avg x (f x))))
-
 
 ; refactor to loop/recur
 (defn sum
