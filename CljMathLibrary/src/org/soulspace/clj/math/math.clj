@@ -20,7 +20,7 @@
 
 ;(set! *warn-on-reflection* true)
 
-(def epsilon 0.001)
+(def default-epsilon 0.00001)
 (def dx 0.0000001)
 
 (defn sqr
@@ -110,9 +110,11 @@
   (/ (floor (+ (* x (exp 10 n)) 0.5)) (exp 10 n )))
 
 (defn close-enough?
-  [x y]
   "Checks for a difference smaller than epsilon"
-  (< (abs (- x y)) epsilon))
+  ([x y]
+    (close-enough? x y default-epsilon))
+  ([x y epsilon]
+    (< (abs (- x y)) epsilon)))
 
 (defn average-damp [f]
   "Returns a function with average dampening for the given function."
@@ -142,27 +144,45 @@
   (defn add-dx [x] (+ x dx))
   (* (sum f (+ a (/ dx 2)) add-dx b) dx))
 
-(defn search
+(defn search-zero
   "Searches for zero."
-  [f neg-point pos-point] 
-  (let [midpoint (avg neg-point pos-point)]
-    (if (close-enough? neg-point pos-point)
-        midpoint
-        (let [test-value (f midpoint)]
-          (cond
-            (pos? test-value) (recur f neg-point midpoint)
-            (neg? test-value) (recur f midpoint pos-point)
-            :default midpoint)))))
+  ([f neg-point pos-point]
+    (search f neg-point pos-point default-epsilon))
+  ([f neg-point pos-point epsilon] 
+    (let [midpoint (avg neg-point pos-point)]
+      (if (close-enough? neg-point pos-point epsilon)
+          midpoint
+          (let [test-value (f midpoint)]
+            (cond
+              (pos? test-value) (recur f neg-point midpoint epsilon)
+              (neg? test-value) (recur f midpoint pos-point epsilon)
+              :default midpoint))))))
+
+(defn search-value
+  "Searches for value."
+  ([f v neg-point pos-point]
+    (search f neg-point pos-point default-epsilon))
+  ([f v neg-point pos-point epsilon] 
+    (let [midpoint (avg neg-point pos-point)]
+      (if (close-enough? neg-point pos-point epsilon)
+          midpoint
+          (let [test-value (f midpoint)]
+            (cond
+              (> test-value v) (recur f v neg-point midpoint epsilon)
+              (< test-value v) (recur f v midpoint pos-point epsilon)
+              :default midpoint))))))
 
 (defn half-intervall
   "Half intervall method for the function f and values a and b."
-  [f a b]
-  (let [a-value (f a)
-        b-value (f b)]
-    (cond
-      (and (neg? a-value) (pos? b-value)) (search f a b)
-      (and (neg? b-value) (pos? a-value)) (search f b a)
-      :default (throw (RuntimeException. (str "Values are not of opposite sign: " a " " b))))))
+  ([f a b]
+    (half-intervall f a b default-epsilon))
+  ([f a b epsilon]
+    (let [a-value (f a)
+          b-value (f b)]
+      (cond
+        (and (neg? a-value) (pos? b-value)) (search-zero f a b epsilon)
+        (and (neg? b-value) (pos? a-value)) (search-zero f b a epsilon)
+        :default (throw (RuntimeException. (str "Values are not of opposite sign: " a " " b)))))))
 
 (defn fixed-point
   "Calculates a fixed point of the function f."
