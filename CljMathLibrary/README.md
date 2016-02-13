@@ -2,13 +2,16 @@ CljMathLibrary
 ==============
 The CljMathLibrary is a library with mathematical functions.
 
+Contains wrappers for the functions in Java Math and additional functions for e.g. statistics, probability, geometry, trigonometry.
+
+
 Author/Project Lead
 -------------------
 Ludger Solbach
 
 Copyright
 ---------
-Â© 2011-2015 Ludger Solbach
+© 2011-2016 Ludger Solbach
 
 License
 -------

@@ -2,7 +2,7 @@
  :module "CljMathLibrary"
  :project "org.soulspace.clj"
  :type :library
- :version "0.3.0"
+ :version "0.4.0"
  :description "Clojure math library"
  :plugins ["global"
            ["org.soulspace.baumeister/ClojurePlugin"]

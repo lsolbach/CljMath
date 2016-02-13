@@ -59,26 +59,26 @@
   [x]
   (* 2 (asin (sqrt x))))
 
-(defn- tau
+(defn- tau-erf
   [x]
   (let [t (/ 1
              (+ 1 (* 1/2 (abs x))))]
     (- 1 (* t (exp (+ (* -1 x x)
-                      -1.26551223
-                      (* 1.00002368 t)
-                      (* 0.37409196 t t)
-                      (* 0.09678418 t t t)
+                         -1.26551223
+                      (*  1.00002368 t)
+                      (*  0.37409196 t t)
+                      (*  0.09678418 t t t)
                       (* -0.18628806 t t t t)
-                      (* 0.27886807 t t t t t)
+                      (*  0.27886807 t t t t t)
                       (* -1.13520398 t t t t t t)
-                      (* 1.48851587 t t t t t t t)
+                      (*  1.48851587 t t t t t t t)
                       (* -0.82215223 t t t t t t t t)
-                      (* 0.17087277 t t t t t t t t t)))))))
+                      (*  0.17087277 t t t t t t t t t)))))))
 
 (defn erf
   "Calculates the gaussian error function."
   [x]
-  (let [z (tau x)]
+  (let [z (tau-erf x)]
     (if (>= x 0)
       z
       (* -1 z))))
@@ -86,6 +86,7 @@
 (defn erfc
   "Calculates the complementary gaussian error function."
   [x]
+  ; TODO implement
   )
 
 (defn gcd
@@ -95,7 +96,7 @@
     x
     (gcd y (rem x y))))
 
-; TODO this fn is subject to StachOverflowException, find better implementation.
+; TODO this fn is subject to a StackOverflowException, find a better implementation.
 (defn primes
   "Returns a lazy sequence of primes."
   ([]
@@ -182,7 +183,7 @@
       (cond
         (and (neg? a-value) (pos? b-value)) (search-zero f a b epsilon)
         (and (neg? b-value) (pos? a-value)) (search-zero f b a epsilon)
-        :default (throw (RuntimeException. (str "Values are not of opposite sign: " a " " b)))))))
+        :default (throw (IllegalArgumentException. (str "Values are not of opposite sign: " a " " b)))))))
 
 (defn fixed-point
   "Calculates a fixed point of the function f."

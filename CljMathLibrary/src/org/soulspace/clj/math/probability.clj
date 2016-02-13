@@ -85,8 +85,8 @@
     (+ mu (* sigma (inverse-normal-cdf-with-tolerance p 0.00001)))))
 
 (def normal-probability-below
-"Calculates the probability that the variable is below the given value x (which is exactly what the cumulative distribution function gives us)."
-normal-cdf)
+  "Calculates the probability that the variable is below the given value x (which is exactly what the cumulative distribution function gives us)."
+  normal-cdf)
 
 (defn normal-probability-above
   "Calculates the probability that the variable is below the given value x."
