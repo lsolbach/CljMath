@@ -143,3 +143,21 @@
     (let [tail-probability (/ (- 1 probability) 2)]
       [(normal-lower-bound tail-probability mu sigma) (normal-upper-bound tail-probability mu sigma)])))
 
+(def upper-p-value
+  "Calculates the probability for seeing the value x."
+  normal-probability-above)
+
+(def lower-p-value 
+  "Calculates the probability for seeing the value x."
+  normal-probability-below)
+
+(defn two-sided-p-value 
+  "Calculates the probability for seeing the value x."
+  ([x]
+    (two-sided-p-value x 0 1))
+  ([x [mu sigma]]
+    (two-sided-p-value x mu sigma))
+  ([x mu sigma]
+    (if (< x mu)
+      (* 2 (normal-probability-below x mu sigma))
+      (* 2 (normal-probability-above x mu sigma)))))

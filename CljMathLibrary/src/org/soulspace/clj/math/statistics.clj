@@ -128,3 +128,22 @@
   ""
   [q coll]
   (* (count coll) q))
+
+;
+; hypothesis tests
+;
+(defn- estimated-parameters
+  "Calculates the probability and standard deviation for a given test outcome of n out of N."
+  ([[N n]]
+    (estimated-parameters N n))
+  ([N n]
+    (let [p (/ n N)]
+      [p (sqrt (/ (* p (- 1 p)) N))])))
+
+(defn a-b-test-statistic
+  "Calculates the statistic for the hypothesis, that p-a and p-b are the same, given the outcomes for test a and b."
+  [N-a n-a N-b n-b]
+  (let [[p-a sigma-a] (estimated-parameters N-a n-a)
+        [p-b sigma-b] (estimated-parameters N-b n-b)]
+    (/ (- p-b p-a)
+       (sqrt (+ (* sigma-a sigma-a) (* sigma-b sigma-b))))))
