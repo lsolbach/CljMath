@@ -148,7 +148,7 @@
 (defn search-zero
   "Searches for zero."
   ([f neg-point pos-point]
-    (search f neg-point pos-point default-epsilon))
+    (search-zero f neg-point pos-point default-epsilon))
   ([f neg-point pos-point epsilon] 
     (let [midpoint (avg neg-point pos-point)]
       (if (close-enough? neg-point pos-point epsilon)
@@ -162,7 +162,7 @@
 (defn search-value
   "Searches for value."
   ([f v neg-point pos-point]
-    (search f neg-point pos-point default-epsilon))
+    (search-value f neg-point pos-point default-epsilon))
   ([f v neg-point pos-point epsilon] 
     (let [midpoint (avg neg-point pos-point)]
       (if (close-enough? neg-point pos-point epsilon)
