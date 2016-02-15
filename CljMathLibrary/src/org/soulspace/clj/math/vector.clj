@@ -10,7 +10,18 @@
 (ns org.soulspace.clj.math.vector)
 
 (defprotocol Vector
-  ""
+  "Protocol for vectors."
+  (scalar-add v s)
+  (scalar-product v s)
+  (vector-add v v)
+  )
+
+(defrecord VecVectorImpl
+  [elements]
+  Vector
+  (scalar-add v s)
+  (scalar-product v s)
+  (vector-add v v)
   )
 
 (defn addition

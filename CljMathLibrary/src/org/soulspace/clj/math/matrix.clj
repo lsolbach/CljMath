@@ -11,7 +11,22 @@
 
 (defprotocol Matrix
   "Protocol for matrices."
-  (get-element [m i j])
+  (element [m i j] "Returns the element of the matrix m at row i and column j.")
+  (row-vector [m i] "Returns the row vector of the matrix m at row i.")
+  (column-vector [m j] "Returns the column vector of the matrix m at column j.")
+  (upper-triangular [m] "Returns the upper triangular of the matrix m.")
+  (lower-triangular [m] "Returns the upper triangular of the matrix m.")
+  (scalar-sum [m s] "Calculates the scalar sum of the matrix m with the scalar s.")
+  (scalar-product [m s] "Calculates the scalar product of the matrix m with the scalar s.")
+  (matrix-sum [m m2] "Calculates the sum of the matrix m with the matrix m2.")
+  (matrix-product [m m2] "")
+  (transpose [m] "Returns the transposed matrix of the matrix m.")
+  (solve [m v] ""))
+
+(defrecord VecMatrixImpl
+  [elements]
+  Matrix
+  (element [m i j])
   (row-vector [m i])
   (column-vector [m j])
   (scalar-sum [m r])
