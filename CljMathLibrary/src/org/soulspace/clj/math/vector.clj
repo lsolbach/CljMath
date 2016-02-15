@@ -51,7 +51,7 @@
     (throw (IllegalArgumentException. "The Vectors are not of the same dimension."))))
 
 (defn sum-of-squares
-  "Returns the sum of the squares of v."
+  "Returns the sum of the squares of the elements of v."
   [v]
   (dot-product v v))
 
