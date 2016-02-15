@@ -25,7 +25,7 @@
   (mapv #(* % s) v))
 
 (defn vector-add
-  "Adds the vectors."
+  "Adds the vectors v and w."
   [v w]
   (if (= (count v) (count w))
     (mapv + v w)
