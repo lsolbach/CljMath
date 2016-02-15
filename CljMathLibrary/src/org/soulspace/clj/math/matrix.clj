@@ -9,6 +9,11 @@
 ;
 (ns org.soulspace.clj.math.matrix)
 
+(defn shape
+  "Returns the shape of the matrix as a vector of the number of rows and columns."
+  [m]
+  [(count m) (count (m 0))])
+
 (defn element
   "Returns the element of the matrix m at row i and column j."
   [m i j]
@@ -22,21 +27,23 @@
 (defn column-vector
   "Returns the column vector of the matrix m at column j."
   [m j]
-  (for [i ]))
+  (mapv #(nth % j) m))
 
 (defn scalar-add
   "Adds the scalar s to the matrix m."
-  [m r]
-  (for []))
+  [s m]
+  (mapv (partial mapv (partial + s)) m))
 
 (defn scalar-multiply
   "Multiplies the scalar s to the matrix m."
-  [m r]
-  )
+  [s m]
+  (mapv (partial mapv (partial * s)) m))
 
 (defn matrix-sum
   [m m2]
-  )
+  (if (= (shape m) (shape m2))
+    (mapv (partial mapv +) m m2)
+    (throw IllegalArgumentException "The matrices are not of the same shape.")))
 
 (defn matrix-product
   [m m2]
