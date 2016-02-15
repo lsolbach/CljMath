@@ -39,7 +39,7 @@
   [s m]
   (mapv (partial mapv (partial * s)) m))
 
-(defn matrix-sum
+(defn matrix-add
   [m m2]
   (if (= (shape m) (shape m2))
     (mapv (partial mapv +) m m2)
