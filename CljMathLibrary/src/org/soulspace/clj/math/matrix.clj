@@ -40,16 +40,30 @@
   (mapv (partial mapv (partial * s)) m))
 
 (defn matrix-add
-  [m m2]
-  (if (= (shape m) (shape m2))
-    (mapv (partial mapv +) m m2)
-    (throw IllegalArgumentException "The matrices are not of the same shape.")))
+  "Adds the matrices m and n."
+  [m n]
+  (if (= (shape m) (shape n))
+    (mapv (partial mapv +) m n)
+    (throw (IllegalArgumentException. "The matrices are not of the same shape."))))
+
+(defn matrix-substract
+  "Substracts the matrices m and n."
+  [m n]
+  (if (= (shape m) (shape n))
+    (mapv (partial mapv -) m n)
+    (throw (IllegalArgumentException. "The matrices are not of the same shape."))))
+
+(defn matrix-sum
+  "Adds the matrices."
+  [& ms]
+  (reduce matrix-add ms))
 
 (defn matrix-product
-  [m m2]
+  [m n]
   )
 
 (defn transpose
+  "Returns the transposed matrix of the matrix m."
   [m]
   )
 
