@@ -10,7 +10,7 @@
 (ns org.soulspace.clj.math.vector
   (:use [org.soulspace.clj.math java-math]))
 
-(def vector-dimension
+(def dimension
   "Returns the dimension of the vector v."
   count)
 
@@ -27,14 +27,14 @@
 (defn vector-add
   "Adds the vectors v and w."
   [v w]
-  (if (= (count v) (count w))
+  (if (= (dimension v) (dimension w))
     (mapv + v w)
     (throw (IllegalArgumentException. "The vectors are not of the same dimension."))))
 
 (defn vector-substract
   "Substracts the vectors v and w."
   [v w]
-  (if (= (count v) (count w))
+  (if (= (dimension v) (dimension w))
     (mapv - v w)
     (throw (IllegalArgumentException. "The Vectors are not of the same dimension."))))
 
@@ -46,7 +46,7 @@
 (defn dot-product
   "Returns the dot product of the vectors v and w."
   [v w]
-  (if (= (count v) (count w))
+  (if (= (dimension v) (dimension w))
     (reduce + (map * v w))
     (throw (IllegalArgumentException. "The Vectors are not of the same dimension."))))
 
@@ -72,7 +72,7 @@
 
 (defn cross-product
   [a b]
-  (if (= (count a) (count b))
+  (if (= (dimension a) (dimension b))
     nil ; TODO calculate cross product
     (throw (IllegalArgumentException. "The Vectors are not of the same dimension."))))
 
