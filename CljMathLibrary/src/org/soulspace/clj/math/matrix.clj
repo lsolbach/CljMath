@@ -9,6 +9,16 @@
 ;
 (ns org.soulspace.clj.math.matrix)
 
+(defn rows
+  "Returns the number of rows of the matrix m."
+  [m]
+  (count m))
+
+(defn columns
+  "Returns the number of columns of the matrix m."
+  [m]
+  (count (m 0)))
+
 (defn shape
   "Returns the shape of the matrix as a vector of the number of rows and columns."
   [m]
@@ -28,6 +38,34 @@
   "Returns the column vector of the matrix m at column j."
   [m j]
   (mapv #(nth % j) m))
+
+(defn transpose
+  "Returns the transposed matrix of the matrix m."
+  [m]
+  (mapv #(column-vector m %) (range (columns m))))
+
+(def column-vectors
+  "Returns the column vectors of the matrix m."
+  transpose)
+
+(defn diagonal
+  "Returns 1 if i = j, otherwise 0."
+  [i j]
+  (if (= i j)
+    1
+    0))
+
+(defn build-matrix
+  "Builds a new matrix of shape rows x cols with the value m[i, j] is f(i, j)."
+  [rows cols f]
+  (vec (for [i (range rows)]
+         (vec (for [j (range cols)]
+                (f i j))))))
+
+(defn identity-matrix
+  "Builds an identity matrix of shape n x n."
+  [n]
+  (build-matrix n n diagonal))
 
 (defn scalar-add
   "Adds the scalar s to the matrix m."
@@ -62,21 +100,28 @@
   [m n]
   )
 
-(defn transpose
-  "Returns the transposed matrix of the matrix m."
+; TODO check if this should be compliant to an L-R Zerlegung 
+(defn upper-triangular
+  "Returns the upper triangular matrix of the matrix m."
   [m]
-  )
+  (vec (for [i (range (rows m))]
+         (vec (for [j (range (columns m))]
+                (if (<= i j )
+                  (element m i j)
+                  0))))))
+
+; TODO check if this should be compliant to an L-R Zerlegung 
+(defn lower-triangular
+  "Returns the lower triangular matrix of the matrix m."
+  [m]
+  (vec (for [i (range (rows m))]
+         (vec (for [j (range (columns m))]
+                (if (>= i j )
+                  (element m i j)
+                  0))))))
 
 (defn solve
   [m v]
-  )
-
-(defn upper-triangular
-  [m]
-  )
-
-(defn lower-triangular
-  [m]
   )
 
 (comment
