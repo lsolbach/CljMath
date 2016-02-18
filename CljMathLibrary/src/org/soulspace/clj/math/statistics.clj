@@ -8,9 +8,10 @@
 ;   You must not remove this notice, or any other, from this software.
 ;
 (ns org.soulspace.clj.math.statistics
-  (:use 
-    [org.soulspace.clj.math.math]
-    [org.soulspace.clj.math.java-math :only [pow sqrt cbrt ceil]]))
+  (:use [org.soulspace.clj.math math]
+        [org.soulspace.clj.math.java-math :only [pow sqrt cbrt ceil]])
+  (:require [org.soulspace.clj.math.matrix :as m]
+            [org.soulspace.clj.math.vector :as v]))
 
 ; same as avg
 ;(defn geometric-average
@@ -18,24 +19,36 @@
 ;  [coll]
 ;  (pow (* coll) (- (count coll))))
 
-(def geometric-average avg)
+(def mean
+  "Returns the mean of the values of the coll."
+  avg)
+
+(def geometric-average
+  "Returns the geometric average (mean) of the values of the coll."
+  avg)
 
 (defn harmonic-average
-  "Returns the harmonic average"
+  "Returns the harmonic average of the values of the coll."
   [coll]
   (reduce + 0 (map #(/ 1 %) coll)))
 
 (defn square-average
-  "Returns the square average"
+  "Returns the square average of the values of the coll."
   [coll]
   (sqrt (/ (reduce + 0 (map sqr coll))
            (count coll))))
 
 (defn cubic-average
-  "Returns the cubic average"
+  "Returns the cubic average of the values of the coll."
   [coll]
   (cbrt (/ (reduce + 0 (map cube coll))
            (count coll))))
+
+(defn de-mean
+  "Returns a collection with the mean substacted from each value of input coll."
+  [coll]
+  (let [x-mean (mean coll)]
+    (map #(- % x-mean) coll)))
 
 (defn quantile
   "Returns the q quantile"
@@ -147,3 +160,23 @@
         [p-b sigma-b] (estimated-parameters N-b n-b)]
     (/ (- p-b p-a)
        (sqrt (+ (* sigma-a sigma-a) (* sigma-b sigma-b))))))
+
+
+(defn scale
+  "Returns the mean vector and the unbiased standard deviation vector for the colums of the matrix."
+  [m]
+  (let [cols (m/column-vectors m)]
+    [(mapv avg cols) (mapv unbiased-deviation cols)]))
+
+(defn rescale
+  "Rescales the matrix m to have a mean of 0 and an unbiased standard deviation of 1."
+  [m]
+  (let [[rows cols] (m/shape m)
+        [means stdevs] (scale m)]
+    (defn rescaled
+      [i j]
+      (if (> (stdevs j) 0)
+        (/ (- (m/element m i j) (means j))
+           (stdevs j))
+        (m/element m i j)))
+    (m/build-matrix rows cols rescaled)))
