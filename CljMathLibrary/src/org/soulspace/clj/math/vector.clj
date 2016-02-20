@@ -70,27 +70,29 @@
   [v]
   (scalar-multiply (/ 1 (magnitude v)) v))
 
-(defn cross-product
-  [a b]
-  (if (= (dimension a) (dimension b))
-    nil ; TODO calculate cross product
-    (throw (IllegalArgumentException. "The Vectors are not of the same dimension."))))
+
 
 (comment
-(defprotocol Vector
-  "Protocol for vectors."
-  (scalar-add [v s])
-  (scalar-product [v s])
-  (vector-add [v v2])
-  (vector-product [v v2])
-  )
+  (defn cross-product
+    [a b]
+    (if (= (dimension a) (dimension b))
+      nil ; TODO calculate cross product
+      (throw (IllegalArgumentException. "The Vectors are not of the same dimension."))))
 
-(defrecord VecVectorImpl
-  [elements]
-  Vector
-  (scalar-add [v s])
-  (scalar-product [v s])
-  (vector-add [v v2])
-  (vector-product [v v2])
+  (defprotocol Vector
+    "Protocol for vectors."
+    (scalar-add [v s])
+    (scalar-product [v s])
+    (vector-add [v v2])
+    (vector-product [v v2])
+    )
+  
+  (defrecord VecVectorImpl
+    [elements]
+    Vector
+    (scalar-add [v s])
+    (scalar-product [v s])
+    (vector-add [v v2])
+    (vector-product [v v2])
+    )
   )
-)
