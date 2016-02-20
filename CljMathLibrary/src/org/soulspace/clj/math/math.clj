@@ -14,14 +14,13 @@
 
 ; mathematical functions 
 
-; some functions are in the spirit of 
-; 'Structure and Interpretation of Computer Programs'
-; by Abelson, Sussman and Sussman
+; implements algorithms e.g. from
+;   Abelson, Sussman and Sussman; 'Structure and Interpretation of Computer Programs';
 
 ;(set! *warn-on-reflection* true)
 
-(def default-epsilon 0.00001)
-(def default-dx 0.0000001)
+(def default-epsilon "Default tolerance (epsilon)." 0.00001)
+(def default-dx "Default step size (delta x)." 0.0000001)
 
 (defn factorial
   "Calculates the factorial of x."
@@ -57,6 +56,9 @@
   ([coll]
     (/ (reduce + 0 coll) (count coll))))
 
+;
+; special trigonometric functions
+;
 (defn atan2 [a b]
   "Calculates the arc tangens of a/b. Returns the result in the correct quadrant."
   (let [r (atan (/ a b))] ; TODO handle b = 0 case
@@ -76,6 +78,9 @@
   [x]
   (* 2 (asin (sqrt x))))
 
+;
+; special functions
+;
 (defn- tau-erf
   [x]
   (let [t (/ 1
@@ -106,6 +111,9 @@
   ; TODO implement
   )
 
+;
+; mathematical algorithms
+;
 (defn gcd
   "Calculates the greatest common divisor of x and y"
   [x y]
@@ -156,11 +164,22 @@
     (* (term a)
        (prod term (nxt a) nxt b))))
 
-(defn integral
-  "Calculates the integral of function f between a and b with dx."
-  [f a b dx]
-  (defn add-dx [x] (+ x dx))
-  (* (sum f (+ a (/ dx 2)) add-dx b) dx))
+;
+; calculus/analysis
+;
+(defn search-value
+  "Searches for value."
+  ([f v low high]
+    (search-value f v low high default-epsilon))
+  ([f v low high epsilon] 
+    (let [mid (avg low high)]
+      (if (close-enough? low high epsilon)
+          mid
+          (let [v-test (f mid)]
+            (cond
+              (> v-test v) (recur f v low mid epsilon)
+              (< v-test v) (recur f v mid high epsilon)
+              :default mid))))))
 
 (defn search-zero
   "Searches for zero."
@@ -174,20 +193,6 @@
             (cond
               (pos? test-value) (recur f neg-point midpoint epsilon)
               (neg? test-value) (recur f midpoint pos-point epsilon)
-              :default midpoint))))))
-
-(defn search-value
-  "Searches for value."
-  ([f v neg-point pos-point]
-    (search-value f neg-point pos-point default-epsilon))
-  ([f v neg-point pos-point epsilon] 
-    (let [midpoint (avg neg-point pos-point)]
-      (if (close-enough? neg-point pos-point epsilon)
-          midpoint
-          (let [test-value (f midpoint)]
-            (cond
-              (> test-value v) (recur f v neg-point midpoint epsilon)
-              (< test-value v) (recur f v midpoint pos-point epsilon)
               :default midpoint))))))
 
 (defn half-intervall
@@ -205,12 +210,18 @@
 (defn fixed-point
   "Calculates a fixed point of the function f."
   [f first-guess]
-  (defn try-guess [guess]
+  (loop [guess first-guess]
     (let [next-guess (f guess)]
       (if (close-enough? guess next-guess)
-          next-guess
-          (recur next-guess))))
-  (try-guess first-guess))
+        next-guess
+        (recur next-guess)))))
+
+(defn integral
+  "Calculates the integral of function f between a and b with dx."
+  ([f a b]
+    (integral f a b default-dx))
+  ([f a b dx]
+    (* (sum f (+ a (/ dx 2)) (partial + dx) b) dx)))
 
 (defn difference-quotient
   "Calculates the difference quotient of the function f at x with the delta dx."

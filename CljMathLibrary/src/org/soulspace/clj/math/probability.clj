@@ -10,8 +10,8 @@
 (ns org.soulspace.clj.math.probability
   (:use [org.soulspace.clj.math math java-math]))
 
-; Algorithms from
-; Grus, Joel; Data Science from Scratch; O'Reilly
+; implements algorithms e.g. from
+;   Grus, Joel; Data Science from Scratch; O'Reilly
 ;
 
 (defn bernoulli
