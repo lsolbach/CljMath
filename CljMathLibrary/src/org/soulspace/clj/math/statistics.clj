@@ -161,7 +161,9 @@
     (/ (- p-b p-a)
        (sqrt (+ (* sigma-a sigma-a) (* sigma-b sigma-b))))))
 
-
+;
+; rescaling of data matices
+;
 (defn scale
   "Returns the mean vector and the unbiased standard deviation vector for the colums of the matrix."
   [m]
@@ -173,10 +175,93 @@
   [m]
   (let [[rows cols] (m/shape m)
         [means stdevs] (scale m)]
-    (defn rescaled
-      [i j]
+
+    (defn rescaled [i j]
       (if (> (stdevs j) 0)
         (/ (- (m/element m i j) (means j))
            (stdevs j))
         (m/element m i j)))
+    
     (m/build-matrix rows cols rescaled)))
+
+(defn de-mean-matrix
+  "Returns a matrix with the column mean substacted from each value of input matrix m."
+  [m]
+  (let [[rows cols] (m/shape m)
+        [means _] (scale m)]
+    (m/build-matrix rows cols (fn [i j] (- (m/element i j) (means j))))))
+
+;
+; gradient descent (TODO move to a different namespace (e.g. graadient or optimization))
+;
+(defn partial-difference-quotient
+  "Calculates the i-th partial difference quotient of f at v."
+  [f v i h]
+  (let [w (for [[j v-j] (map-indexed v)]
+            (if (= i j)
+              (+ v-j h)
+              v-j))]
+    (/ (- (f w) (f v))
+       h)))
+
+(defn estimate-gradient
+  "Estimates the gradient of f at v."
+  ([f v]
+    (estimate-gradient f v 0.0000001))
+  ([f v h]
+    (mapv #(partial-difference-quotient f v % h) (range (count v)))))
+
+(defn step
+  "Returns the vector v moved step-size in direction."
+  [v direction step-size]
+  (for [[v-i direction-i] (map vector v direction)]
+    (+ v-i (* step-size direction-i))))
+
+(defn minimize-batch
+  ""
+  [])
+
+(defn maximize-batch
+  ""
+  [])
+
+(defn minimize-stochastic
+  ""
+  [])
+
+(defn maximize-stochastic
+  ""
+  [])
+
+
+(def direction
+  "Returns the direction of the vector w (which is w normalized to length 1)"
+  v/normalize)
+
+(defn directional-variance-i
+  "Calculates the variance of the row x-i in the direction of w."
+  [x-i w]
+  (sqr (v/dot-product x-i (direction w))))
+
+(defn directional-variance
+  "Calculates the variance of the matrix m in the direction of w."
+  [m w]
+  (reduce + (map #(directional-variance-i % w) m)))
+
+(defn directional-variance-gradient-i
+  "Calculates the contribution of row x-i to the gradient of the variance in direction w."
+  [x-i w]
+  (let [projection-length (v/dot-product x-i (direction w))]
+    (mapv #(* 2 projection-length %) x-i)))
+
+(defn directional-variance-gradient
+  "Calculates the contribution of the matrix m to the gradient of the variance in direction w."
+  [m w]
+  (mapv #(v/vector-sum (directional-variance-gradient-i % w)) m))
+
+
+(defn sum-of-squares-gradient
+  "Calculates the gradient of the sum of squares of v."
+  [v]
+  (mapv #(* 2 %) v))
+
