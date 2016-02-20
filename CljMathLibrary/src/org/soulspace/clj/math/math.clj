@@ -21,7 +21,24 @@
 ;(set! *warn-on-reflection* true)
 
 (def default-epsilon 0.00001)
-(def dx 0.0000001)
+(def default-dx 0.0000001)
+
+(defn factorial
+  "Calculates the factorial of x."
+  [^long x]
+  (loop [curr x fact 1]
+    (cond
+      (<= curr 0) 0
+      (= curr 1) fact
+      :default (recur (dec curr) (*' curr fact)))))
+
+(defn fibonacci
+  "Calculates the fibonacci number of x."
+  [^long x]
+  (loop [a 1 b 0 cnt x]
+    (cond
+      (= cnt 0) b
+      :default (recur (+' a b) a (dec cnt)))))
 
 (defn sqr
   "Calculates the square of x."
@@ -195,23 +212,38 @@
           (recur next-guess))))
   (try-guess first-guess))
 
-(defn deriv
-  "Derives the function g."
-  [g]
-  (fn [x]
-    (/ (- (g (+ x dx)) (g x))
+(defn difference-quotient
+  "Calculates the difference quotient of the function f at x with the delta dx."
+  ([f x]
+    (difference-quotient f x default-dx))
+  ([f x dx]
+    (/ (- (f (+ x dx)) (f x))
        dx)))
 
+(defn derivation
+  "Returns a funtion that is the derivation of the function f."
+  ([f]
+    (derivation f default-dx))
+  ([f dx]
+    (fn [x]
+      ; (difference-quotient f x dx)
+      (/ (- (f (+ x dx)) (f x))
+               dx))))
+
 (defn newton-transform
-  "Returns a function which is the newton transfomation of the given function."
-  [g]
-  (fn [x]
-    (- x (/ (g x) ((deriv g) x)))))
+  "Returns a function which is the newton transfomation of the given function f."
+  ([f]
+    (newton-transform f default-dx))
+  ([f dx]
+    (fn [x]
+      (- x (/ (f x) ((derivation f dx) x))))))
 
 (defn newton-method
-  "Newton method for searching a root of the function g."
-  [g guess]
-  (fixed-point (newton-transform g) guess))
+  "Newton method for searching a root of the function f starting with guess."
+  ([f guess]
+    (newton-method f default-dx guess))
+  ([f dx guess]
+    (fixed-point (newton-transform f dx) guess)))
 
 (defn quadratic-roots
   "Returns the roots of the quadratic equation (a * x^2 + b * x + c = 0)."
@@ -220,19 +252,3 @@
     [(/ (+ (- b) (sqrt d)) (* 2 a))
      (/ (- (- b) (sqrt d)) (* 2 a))]))
 
-(defn factorial
-  "Calculates the factorial of x."
-  [^long x]
-  (loop [curr x fact 1]
-    (cond
-      (<= curr 0) 0
-      (= curr 1) fact
-      :default (recur (dec curr) (*' curr fact)))))
-
-(defn fibonacci
-  "Calculates the fibonacci number of x."
-  [^long x]
-  (loop [a 1 b 0 cnt x]
-    (cond
-      (= cnt 0) b
-      :default (recur (+' a b) a (dec cnt)))))
