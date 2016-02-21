@@ -9,7 +9,7 @@
 ;
 (ns org.soulspace.clj.math.statistics
   (:use [org.soulspace.clj.math math]
-        [org.soulspace.clj.math.java-math :only [pow sqrt cbrt ceil]])
+        [org.soulspace.clj.math.java-math :only [abs pow sqrt cbrt ceil]])
   (:require [org.soulspace.clj.math.matrix :as m]
             [org.soulspace.clj.math.vector :as v]))
 
@@ -194,6 +194,25 @@
 ;
 ; gradient descent (TODO move to a different namespace (e.g. graadient or optimization))
 ;
+(def step-sizes [100 10 1 0.1 0.01 0.001 0.0001 0.00001])
+
+(defn safe-fn
+  "Returns a function that is the same as f except that it returns infinity whenever f returns an error."
+  [f]
+  (fn [& args]
+    (try
+      (apply f args)
+      (catch Exception e
+        Double/POSITIVE_INFINITY))))
+
+(defn safe-apply
+  "Returns a function that is the same as f except that it returns infinity whenever f returns an error."
+  [f & args]
+  (try
+    (apply f args)
+    (catch Exception e
+      Double/POSITIVE_INFINITY)))
+
 (defn partial-difference-quotient
   "Calculates the i-th partial difference quotient of f at v."
   [f v i h]
@@ -217,22 +236,55 @@
   (for [[v-i direction-i] (map vector v direction)]
     (+ v-i (* step-size direction-i))))
 
-(defn minimize-batch
-  ""
-  [])
+(defn negated-fn
+  "Returns a function that calculates the negated value (multiplied with -1) of f."
+  [f]
+  (fn [& args]
+    (* -1 (apply f args))))
 
+(defn negated-all-fn
+  "Returns a function that calculates the negated values (multiplied with -1) of f for functions returning a sequence of values."
+  [f]
+  (fn [& args]
+    (map #(* -1 %) (apply f args))))
+
+(defn minimize-batch
+  "Calculates ."
+  ([target-fn gradient-fn theta-0]
+    (minimize-batch target-fn gradient-fn theta-0 default-epsilon))
+  ([target-fn gradient-fn theta-0 tolerance]
+    (let [target-fn (safe-fn target-fn)]
+      (loop [theta theta-0
+             value (target-fn theta)]
+        (let [gradient (gradient-fn theta)
+              next-thetas (map #(step theta gradient (* -1 %)) step-sizes)
+              next-theta (apply min-key target-fn next-thetas)
+              next-value (target-fn next-theta)]
+          (if (< (abs (- value next-value)) tolerance)
+            theta
+            (recur next-theta next-value)))))))
+  
 (defn maximize-batch
-  ""
-  [])
+  "Calculates the theta that minimizes the target function by gradient descent."
+  ([target-fn gradient-fn theta-0]
+    (maximize-batch target-fn gradient-fn theta-0 default-epsilon))
+  ([target-fn gradient-fn theta-0 tolerance]
+    (minimize-batch (negated-fn target-fn) (negated-all-fn gradient-fn) theta-0 tolerance)))
 
 (defn minimize-stochastic
-  ""
-  [])
+  "Calculates ."
+  ([target-fn gradient-fn x y theta-0]
+    (minimize-stochastic target-fn gradient-fn x y theta-0 0.01))
+  ([target-fn gradient-fn x y theta-0 alpha-0]
+    ; TODO implement
+    ))
 
 (defn maximize-stochastic
-  ""
-  [])
-
+  "Calculates ."
+  ([target-fn gradient-fn x y theta-0]
+    (maximize-stochastic target-fn gradient-fn x y theta-0 0.01))
+  ([target-fn gradient-fn x y theta-0 alpha-0]
+    (minimize-stochastic (negated-fn target-fn) (negated-all-fn gradient-fn) x y theta-0 alpha-0)))
 
 (def direction
   "Returns the direction of the vector w (which is w normalized to length 1)"
