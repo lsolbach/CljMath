@@ -277,6 +277,8 @@
     (minimize-stochastic target-fn gradient-fn x y theta-0 0.01))
   ([target-fn gradient-fn x y theta-0 alpha-0]
     ; TODO implement
+    ; use (shuffle coll)
+    
     ))
 
 (defn maximize-stochastic
@@ -286,6 +288,28 @@
   ([target-fn gradient-fn x y theta-0 alpha-0]
     (minimize-stochastic (negated-fn target-fn) (negated-all-fn gradient-fn) x y theta-0 alpha-0)))
 
+
+;
+; test gradient descent
+;
+(defn sum-of-squares-gradient
+  "Calculates the gradient of the sum of squares of v."
+  [v]
+  (mapv #(* 2 %) v))
+
+(defn minimize-sum-of-squares
+  ""
+  [start-v]
+  (loop [v start-v]
+    (let [gradient (sum-of-squares-gradient v)
+          next-v (step v gradient -0.01)]
+      (if (< (v/distance next-v v) 0.0000001)
+        v
+        (recur next-v)))))
+
+;
+; dimensional reduction via gradient descent
+;
 (def direction
   "Returns the direction of the vector w (which is w normalized to length 1)"
   v/normalize)
@@ -310,10 +334,4 @@
   "Calculates the contribution of the matrix m to the gradient of the variance in direction w."
   [m w]
   (mapv #(v/vector-sum (directional-variance-gradient-i % w)) m))
-
-
-(defn sum-of-squares-gradient
-  "Calculates the gradient of the sum of squares of v."
-  [v]
-  (mapv #(* 2 %) v))
 
