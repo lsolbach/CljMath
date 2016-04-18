@@ -162,7 +162,7 @@
        (sqrt (+ (* sigma-a sigma-a) (* sigma-b sigma-b))))))
 
 ;
-; rescaling of data matices
+; rescaling of data matrices
 ;
 (defn scale
   "Returns the mean vector and the unbiased standard deviation vector for the colums of the matrix."
@@ -196,6 +196,14 @@
 ;
 (def step-sizes [100 10 1 0.1 0.01 0.001 0.0001 0.00001])
 
+(defn safe-apply
+  "Safely applies f so that it returns infinity whenever f returns an error."
+  [f & args]
+  (try
+    (apply f args)
+    (catch Exception e
+      Double/POSITIVE_INFINITY)))
+
 (defn safe-fn
   "Returns a function that is the same as f except that it returns infinity whenever f returns an error."
   [f]
@@ -204,14 +212,6 @@
       (apply f args)
       (catch Exception e
         Double/POSITIVE_INFINITY))))
-
-(defn safe-apply
-  "Returns a function that is the same as f except that it returns infinity whenever f returns an error."
-  [f & args]
-  (try
-    (apply f args)
-    (catch Exception e
-      Double/POSITIVE_INFINITY)))
 
 (defn partial-difference-quotient
   "Calculates the i-th partial difference quotient of f at v."
