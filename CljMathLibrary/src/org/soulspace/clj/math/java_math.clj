@@ -18,6 +18,8 @@
 (def e
   (Math/E))
 
+(def ^:private ln-2 (Math/log 2))
+
 (defn abs
   "Calculates the absolute of x (with java.lang.Math)."
   ^double [^double x]
@@ -59,7 +61,7 @@
   (Math/exp x))
 
 (defn expm1
-  ""
+  "Calulates e to the power of x minus 1."
   [x]
   (Math/expm1 x))
 
@@ -73,8 +75,18 @@
   [x]
   (Math/log10 x))
 
+(defn log-with-base
+  "Calculates the logarithm with base b of x."
+  [b x]
+  (/ (Math/log x) (Math/log b)))
+
+(defn log2
+  "Calculates the logarithm with base 2 of x (with java.lang.Math)."
+  [x]
+  (/ (Math/log x) ln-2))
+
 (defn log1p
-  ""
+  "Calculates the natural logarithm of the sum of x and 1."
   [x]
   (Math/log1p x))
 

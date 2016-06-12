@@ -146,19 +146,19 @@
   "Returns a function with average dampening for the given function."
   (fn [x] (avg x (f x))))
 
-; refactor to loop/recur
 (defn sum
   "Calculates the sum of term between a and b with the step function nxt."
   [term a nxt b]
+  ; TODO refactor to loop/recur
   (if (> a b)
     0
     (+ (term a)
        (sum term (nxt a) nxt b))))
 
-; refactor to loop/recur
 (defn prod
   "Calculates the product of term between a and b with the step function nxt."
   [term a nxt b]
+  ; TODO refactor to loop/recur
   (if (> a b)
     0
     (* (term a)
