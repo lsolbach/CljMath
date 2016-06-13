@@ -70,20 +70,30 @@
   [x]
   (Math/log x))
 
-(defn log10
-  "Calculates the logarithm with base 10 of x (with java.lang.Math)."
-  [x]
-  (Math/log10 x))
-
 (defn log-with-base
   "Calculates the logarithm with base b of x."
   [b x]
   (/ (Math/log x) (Math/log b)))
 
+(defn log10
+  "Calculates the logarithm with base 10 of x (with java.lang.Math)."
+  [x]
+  (Math/log10 x))
+
+(defn alog10
+  "Calculates the inverse of the logarithm with base 2 of x (with java.lang.Math)."
+  [x]
+  (Math/pow 10 x))
+
 (defn log2
   "Calculates the logarithm with base 2 of x (with java.lang.Math)."
   [x]
   (/ (Math/log x) ln-2))
+
+(defn alog2
+  "Calculates the inverse of the logarithm with base 2 of x (with java.lang.Math)."
+  [x]
+  (Math/pow 2 x))
 
 (defn log1p
   "Calculates the natural logarithm of the sum of x and 1."
