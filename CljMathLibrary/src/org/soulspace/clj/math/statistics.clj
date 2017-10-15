@@ -298,7 +298,7 @@
   (mapv #(* 2 %) v))
 
 (defn minimize-sum-of-squares
-  ""
+  "Calculates the minimization of the sum of squares."
   [start-v]
   (loop [v start-v]
     (let [gradient (sum-of-squares-gradient v)
@@ -334,4 +334,3 @@
   "Calculates the contribution of the matrix m to the gradient of the variance in direction w."
   [m w]
   (mapv #(v/vector-sum (directional-variance-gradient-i % w)) m))
-
