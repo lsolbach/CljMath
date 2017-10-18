@@ -3,7 +3,7 @@
  :project "org.soulspace.clj"
  :type :library
  :version "0.5.1"
- :description "Clojure math library"
+ :description "The CljMathLibrary is a Clojure math library providing arithmetical, statistical, trigonometric and other functions"
  :plugins [["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]

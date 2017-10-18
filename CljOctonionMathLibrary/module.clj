@@ -3,10 +3,10 @@
  :project "org.soulspace.clj"
  :type :library
  :version "0.3.0"
- :description "Clojure math library"
+ :description "The CljOctonionMathLibrary is a Clojure math library for calculations with 8 dimensional octonions"
  :plugins [["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]
  :dependencies [["org.clojure/clojure, 1.8.0"]
-                ["org.soulspace.clj/CljMathLibrary, 0.5.0"]]
+                ["org.soulspace.clj/CljMathLibrary, 0.5.1"]]
  ]
