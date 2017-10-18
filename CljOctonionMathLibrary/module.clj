@@ -4,6 +4,7 @@
  :type :library
  :version "0.3.0"
  :description "The CljOctonionMathLibrary is a Clojure math library for calculations with 8 dimensional octonions"
+ :scm-url "https://github.com/lsolbach/CljMath"
  :plugins [["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]

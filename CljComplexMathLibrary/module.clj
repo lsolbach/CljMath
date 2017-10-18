@@ -4,6 +4,7 @@
  :type :library
  :version "0.4.0"
  :description "The CljComplexMathLibrary is a library for complex numbers in Clojure"
+ :scm-url "https://github.com/lsolbach/CljMath"
  :plugins [["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]
