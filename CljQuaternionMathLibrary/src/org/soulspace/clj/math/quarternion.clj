@@ -7,7 +7,8 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.math.quarternion)
+(ns org.soulspace.clj.math.quarternion
+  (:use [org.soulspace.clj.math math java-math]))
 
 ; Quarternions, hyper complex numbers of 4th dimension
 
@@ -20,6 +21,8 @@
   (add [q1 q2] "Returns the addition of the quaternions q1 and q2.")
   (mult [q1 q2] "Returns the multiplication of the quarternions q1 and q2.")
   ;(hamilton-product [q1 q2] "Returns the hamilton product of the quarternions q1 and q2.")
+  (conjugate [q] "Returns the conjugate q* of q.")
+  (norm [q] "Returns the norm of q.")
   )
 
 (defrecord QuaternionImpl
@@ -33,6 +36,10 @@
                  (+ (* (:a q1) (:c q2)) (* -1 (:b q1) (:d q2)) (* (:c q1) (:a q2)) (* (:d q1) (:b q2)))
                  (+ (* (:a q1) (:d q2)) (* (:b q1) (:c q2)) (* -1 (:c q1) (:b q2)) (* (:d q1) (:a q2)))))
   ;(hamilton-product [q1 q2] )
+  (conjugate [q]
+    (quarternion (:a q) (* -1 (:b q)) (* -1 (:c q)) (* -1 (:d q))))
+  (norm [q]
+    (sqrt (+ (sqr (:a q)) (sqr (:b q)) (sqr (:c q)) (sqr (:d q)))))
   )
 
 (defn quarternion
