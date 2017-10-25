@@ -9,8 +9,22 @@
 ;
 (ns org.soulspace.clj.math.octonion)
 
-; Octonions, hyper complex numbers of dimension 8
+; Octonions, hyper complex numbers of the 8th dimension
 
-(defprotocol Octonions
+(set! *warn-on-reflection* true)
+(declare octonion)
+
+(defprotocol Octonion
   "Protocol for octonions, hyper complex numbers of the 8th dimension."
+  )
+
+(defrecord OctonionImpl
+  [a b c d e f g h]
+  Octonion
+  )
+
+(defn octonion
+  "Creates a new quarternion from the real numbers a, b, c, d, e, f, g and h."
+  [a b c d e f g h]
+  (OctonionImpl. a b c d e f g h)
   )

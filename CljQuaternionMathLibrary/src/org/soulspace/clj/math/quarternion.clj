@@ -9,8 +9,34 @@
 ;
 (ns org.soulspace.clj.math.quarternion)
 
-; Quarternions, hyper complex numbers of dimension 4
+; Quarternions, hyper complex numbers of 4th dimension
+
+(set! *warn-on-reflection* true)
+(declare quarternion)
+
 
 (defprotocol Quaternion
   "Protocol for quarternions, hyper complex numbers of 4th dimension."
+  (add [q1 q2] "Returns the addition of the quaternions q1 and q2.")
+  (mult [q1 q2] "Returns the multiplication of the quarternions q1 and q2.")
+  ;(hamilton-product [q1 q2] "Returns the hamilton product of the quarternions q1 and q2.")
+  )
+
+(defrecord QuaternionImpl
+  [a b c d]
+  Quaternion
+  (add [q1 q2]
+    (quarternion (+ (:a q1) (:a q2)) (+ (:b q1) (:b q2)) (+ (:c q1) (:c q2)) (+ (:d q1) (:d q2))))
+  (mult [q1 q2]
+    (quarternion (- (* (:a q1) (:a q2)) (* (:b q1) (:b q2)) (* (:c q1) (:c q2)) (* (:d q1) (:d q2)))
+                 (+ (* (:a q1) (:b q2)) (* (:b q1) (:a q2)) (* (:c q1) (:d q2)) (* -1 (:d q1) (:c q2)))
+                 (+ (* (:a q1) (:c q2)) (* -1 (:b q1) (:d q2)) (* (:c q1) (:a q2)) (* (:d q1) (:b q2)))
+                 (+ (* (:a q1) (:d q2)) (* (:b q1) (:c q2)) (* -1 (:c q1) (:b q2)) (* (:d q1) (:a q2)))))
+  ;(hamilton-product [q1 q2] )
+  )
+
+(defn quarternion
+  "Creates a new quarternion from the real numbers a, b, c and d."
+  [a b c d]
+  (QuaternionImpl. a b c d)
   )
