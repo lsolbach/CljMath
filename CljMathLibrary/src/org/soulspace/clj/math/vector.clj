@@ -84,15 +84,13 @@
     (scalar-add [v s])
     (scalar-product [v s])
     (vector-add [v v2])
-    (vector-product [v v2])
-    )
-  
+    (vector-product [v v2]))
+
+
   (defrecord VecVectorImpl
     [elements]
     Vector
     (scalar-add [v s])
     (scalar-product [v s])
     (vector-add [v v2])
-    (vector-product [v v2])
-    )
-  )
+    (vector-product [v v2])))

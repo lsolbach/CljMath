@@ -53,7 +53,7 @@
 (defn quantile
   "Returns the q quantile"
   [q coll]
-  (let [x  (* (count coll) q) ]
+  (let [x  (* (count coll) q)]
     (if (integer? x)
       (/ (+ (nth coll (- x 1)) (nth coll x))
          2)
@@ -148,10 +148,10 @@
 (defn- estimated-parameters
   "Calculates the probability and standard deviation for a given test outcome of n out of N."
   ([[N n]]
-    (estimated-parameters N n))
+   (estimated-parameters N n))
   ([N n]
-    (let [p (/ n N)]
-      [p (sqrt (/ (* p (- 1 p)) N))])))
+   (let [p (/ n N)]
+     [p (sqrt (/ (* p (- 1 p)) N))])))
 
 (defn a-b-test-statistic
   "Calculates the statistic for the hypothesis, that p-a and p-b are the same, given the outcomes for test a and b."
@@ -181,7 +181,7 @@
         (/ (- (m/element m i j) (means j))
            (stdevs j))
         (m/element m i j)))
-    
+
     (m/build-matrix rows cols rescaled)))
 
 (defn de-mean-matrix
@@ -226,9 +226,9 @@
 (defn estimate-gradient
   "Estimates the gradient of f at v."
   ([f v]
-    (estimate-gradient f v 0.0000001))
+   (estimate-gradient f v 0.0000001))
   ([f v h]
-    (mapv #(partial-difference-quotient f v % h) (range (count v)))))
+   (mapv #(partial-difference-quotient f v % h) (range (count v)))))
 
 (defn step
   "Returns the vector v moved step-size in direction."
@@ -251,42 +251,42 @@
 (defn minimize-batch
   "Calculates ."
   ([target-fn gradient-fn theta-0]
-    (minimize-batch target-fn gradient-fn theta-0 default-epsilon))
+   (minimize-batch target-fn gradient-fn theta-0 default-epsilon))
   ([target-fn gradient-fn theta-0 tolerance]
-    (let [target-fn (safe-fn target-fn)]
-      (loop [theta theta-0
-             value (target-fn theta)]
-        (let [gradient (gradient-fn theta)
-              next-thetas (map #(step theta gradient (* -1 %)) step-sizes)
-              next-theta (apply min-key target-fn next-thetas)
-              next-value (target-fn next-theta)]
-          (if (< (abs (- value next-value)) tolerance)
-            theta
-            (recur next-theta next-value)))))))
-  
+   (let [target-fn (safe-fn target-fn)]
+     (loop [theta theta-0
+            value (target-fn theta)]
+       (let [gradient (gradient-fn theta)
+             next-thetas (map #(step theta gradient (* -1 %)) step-sizes)
+             next-theta (apply min-key target-fn next-thetas)
+             next-value (target-fn next-theta)]
+         (if (< (abs (- value next-value)) tolerance)
+           theta
+           (recur next-theta next-value)))))))
+
 (defn maximize-batch
   "Calculates the theta that minimizes the target function by gradient descent."
   ([target-fn gradient-fn theta-0]
-    (maximize-batch target-fn gradient-fn theta-0 default-epsilon))
+   (maximize-batch target-fn gradient-fn theta-0 default-epsilon))
   ([target-fn gradient-fn theta-0 tolerance]
-    (minimize-batch (negated-fn target-fn) (negated-all-fn gradient-fn) theta-0 tolerance)))
+   (minimize-batch (negated-fn target-fn) (negated-all-fn gradient-fn) theta-0 tolerance)))
 
 (defn minimize-stochastic
   "Calculates ."
   ([target-fn gradient-fn x y theta-0]
-    (minimize-stochastic target-fn gradient-fn x y theta-0 0.01))
-  ([target-fn gradient-fn x y theta-0 alpha-0]
+   (minimize-stochastic target-fn gradient-fn x y theta-0 0.01))
+  ([target-fn gradient-fn x y theta-0 alpha-0]))
     ; TODO implement
     ; use (shuffle coll)
-    
-    ))
+
+
 
 (defn maximize-stochastic
   "Calculates ."
   ([target-fn gradient-fn x y theta-0]
-    (maximize-stochastic target-fn gradient-fn x y theta-0 0.01))
+   (maximize-stochastic target-fn gradient-fn x y theta-0 0.01))
   ([target-fn gradient-fn x y theta-0 alpha-0]
-    (minimize-stochastic (negated-fn target-fn) (negated-all-fn gradient-fn) x y theta-0 alpha-0)))
+   (minimize-stochastic (negated-fn target-fn) (negated-all-fn gradient-fn) x y theta-0 alpha-0)))
 
 
 ;

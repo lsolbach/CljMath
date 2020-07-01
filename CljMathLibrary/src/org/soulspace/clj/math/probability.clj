@@ -34,55 +34,55 @@
 (defn uniform-pdf
   "Calculates the probability density function for the uniform distribution."
   [x]
-    (if (and (>= x 0) (< x 1))
-      1
-      0)
+  (if (and (>= x 0) (< x 1))
+    1
+    0)
 
-(defn uniform-cdf
-  "Calculates the cumulative distribution function for the uniform distribution."
-  [x]
-  (cond
-    (< x 0) 0
-    (< x 1) 1
-    :else 1)))
+ (defn uniform-cdf
+   "Calculates the cumulative distribution function for the uniform distribution."
+   [x]
+   (cond
+     (< x 0) 0
+     (< x 1) 1
+     :else 1)))
 
 (defn normal-pdf
   "Calculates the probability density function for the normal distribution."
   ([x]
-    (normal-pdf x 0 1))
+   (normal-pdf x 0 1))
   ([x [mu sigma]]
-    (normal-pdf x mu sigma))
+   (normal-pdf x mu sigma))
   ([x mu sigma]
-    (/ (exp (* -1 (/ (sqr (- x mu))
-                     (* 2 sigma sigma))))
-       (sqrt (* 2 pi)))))
+   (/ (exp (* -1 (/ (sqr (- x mu))
+                    (* 2 sigma sigma))))
+      (sqrt (* 2 pi)))))
 
 (defn normal-cdf
   "Calculates the cumulative distribution function for the normal distribution."
   ([x]
-    (normal-cdf x 0 1))
+   (normal-cdf x 0 1))
   ([x [mu sigma]]
-    (normal-cdf x mu sigma))
+   (normal-cdf x mu sigma))
   ([x mu sigma]
-    (/ (+ 1 (erf (/ (- x mu)
-                    (* (sqrt 2) sigma))))
-       2)))
+   (/ (+ 1 (erf (/ (- x mu)
+                   (* (sqrt 2) sigma))))
+      2)))
 
 (defn inverse-normal-cdf-with-tolerance
   "Calculates the inverse of the cumulative distribution function for the normal distribution. Approximates the value with binary search."
   ([p e]
-    (search-value normal-cdf p -10.0 10.0 e))
+   (search-value normal-cdf p -10.0 10.0 e))
   ([p mu sigma e]
-    (+ mu (* sigma (inverse-normal-cdf-with-tolerance p e)))))
+   (+ mu (* sigma (inverse-normal-cdf-with-tolerance p e)))))
 
 (defn inverse-normal-cdf
   "Calculates the inverse of the cumulative distribution function for the normal distribution. Approximates the value with binary search."
   ([p]
-    (inverse-normal-cdf-with-tolerance p 0.00001))
+   (inverse-normal-cdf-with-tolerance p 0.00001))
   ([p [mu sigma]]
    (inverse-normal-cdf p mu sigma))
   ([p mu sigma]
-    (+ mu (* sigma (inverse-normal-cdf-with-tolerance p 0.00001)))))
+   (+ mu (* sigma (inverse-normal-cdf-with-tolerance p 0.00001)))))
 
 (def normal-probability-below
   "Calculates the probability that the variable is below the given value x (which is exactly what the cumulative distribution function gives us)."
@@ -91,73 +91,73 @@
 (defn normal-probability-above
   "Calculates the probability that the variable is below the given value x."
   ([x]
-    (normal-probability-above x 0 1))
+   (normal-probability-above x 0 1))
   ([x [mu sigma]]
-    (normal-probability-above x mu sigma))
+   (normal-probability-above x mu sigma))
   ([x mu sigma]
-    (- 1 (normal-cdf x mu sigma))))
+   (- 1 (normal-cdf x mu sigma))))
 
 (defn normal-probability-between
   "Calculates the probability that the variable is below the given value x."
   ([low high]
-    (normal-probability-between low high 0 1))
+   (normal-probability-between low high 0 1))
   ([low high [mu sigma]]
-    (normal-probability-between low high mu sigma))
+   (normal-probability-between low high mu sigma))
   ([low high mu sigma]
-    (- (normal-cdf high mu sigma) (normal-cdf low mu sigma))))
+   (- (normal-cdf high mu sigma) (normal-cdf low mu sigma))))
 
 (defn normal-probability-outside
   "Calculates the probability that the variable is below the given value x."
   ([low high]
-    (normal-probability-outside low high 0 1))
+   (normal-probability-outside low high 0 1))
   ([low high [mu sigma]]
-    (normal-probability-outside low high mu sigma))
+   (normal-probability-outside low high mu sigma))
   ([low high mu sigma]
-    (- 1 (normal-probability-between low high mu sigma))))
+   (- 1 (normal-probability-between low high mu sigma))))
 
 (defn normal-upper-bound
   "Calculates the x for which P(X <= x) = probability."
   ([probability]
-    (normal-upper-bound probability 0 1))
+   (normal-upper-bound probability 0 1))
   ([probability [mu sigma]]
-    (normal-upper-bound probability mu sigma))
+   (normal-upper-bound probability mu sigma))
   ([probability mu sigma]
-    (inverse-normal-cdf probability mu sigma)))
+   (inverse-normal-cdf probability mu sigma)))
 
 (defn normal-lower-bound
   "Calculates the x for which P(X >= x) = probability."
   ([probability]
-    (normal-lower-bound probability 0 1))
+   (normal-lower-bound probability 0 1))
   ([probability [mu sigma]]
-    (normal-lower-bound probability mu sigma))
+   (normal-lower-bound probability mu sigma))
   ([probability mu sigma]
-    (inverse-normal-cdf (- 1 probability) mu sigma)))
+   (inverse-normal-cdf (- 1 probability) mu sigma)))
 
 (defn normal-symmetric-bounds
   "Calculates the symmetric bounds around the mean."
   ([probability]
-    (normal-symmetric-bounds probability 0 1))
+   (normal-symmetric-bounds probability 0 1))
   ([probability [mu sigma]]
-    (normal-symmetric-bounds probability mu sigma))
+   (normal-symmetric-bounds probability mu sigma))
   ([probability mu sigma]
-    (let [tail-probability (/ (- 1 probability) 2)]
-      [(normal-lower-bound tail-probability mu sigma) (normal-upper-bound tail-probability mu sigma)])))
+   (let [tail-probability (/ (- 1 probability) 2)]
+     [(normal-lower-bound tail-probability mu sigma) (normal-upper-bound tail-probability mu sigma)])))
 
 (def upper-p-value
   "Calculates the probability for seeing the value x."
   normal-probability-above)
 
-(def lower-p-value 
+(def lower-p-value
   "Calculates the probability for seeing the value x."
   normal-probability-below)
 
-(defn two-sided-p-value 
+(defn two-sided-p-value
   "Calculates the probability for seeing the value x."
   ([x]
-    (two-sided-p-value x 0 1))
+   (two-sided-p-value x 0 1))
   ([x [mu sigma]]
-    (two-sided-p-value x mu sigma))
+   (two-sided-p-value x mu sigma))
   ([x mu sigma]
-    (if (< x mu)
-      (* 2 (normal-probability-below x mu sigma))
-      (* 2 (normal-probability-above x mu sigma)))))
+   (if (< x mu)
+     (* 2 (normal-probability-below x mu sigma))
+     (* 2 (normal-probability-above x mu sigma)))))

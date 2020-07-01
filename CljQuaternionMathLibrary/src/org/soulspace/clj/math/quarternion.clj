@@ -22,8 +22,8 @@
   (mult [q1 q2] "Returns the multiplication of the quarternions q1 and q2.")
   ;(hamilton-product [q1 q2] "Returns the hamilton product of the quarternions q1 and q2.")
   (conjugate [q] "Returns the conjugate q* of q.")
-  (norm [q] "Returns the norm of q.")
-  )
+  (norm [q] "Returns the norm of q."))
+
 
 (defrecord QuaternionImpl
   [a b c d]
@@ -39,11 +39,10 @@
   (conjugate [q]
     (quarternion (:a q) (* -1 (:b q)) (* -1 (:c q)) (* -1 (:d q))))
   (norm [q]
-    (sqrt (+ (sqr (:a q)) (sqr (:b q)) (sqr (:c q)) (sqr (:d q)))))
-  )
+    (sqrt (+ (sqr (:a q)) (sqr (:b q)) (sqr (:c q)) (sqr (:d q))))))
+
 
 (defn quarternion
   "Creates a new quarternion from the real numbers a, b, c and d."
   [a b c d]
-  (QuaternionImpl. a b c d)
-  )
+  (QuaternionImpl. a b c d))
