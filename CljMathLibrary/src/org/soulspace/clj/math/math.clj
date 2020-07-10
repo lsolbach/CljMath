@@ -8,11 +8,11 @@
 ;   You must not remove this notice, or any other, from this software.
 ;
 (ns org.soulspace.clj.math.math
-  (:use [org.soulspace.clj.math.java-math 
+  (:use [org.soulspace.clj.math.java-math]))
          ;:only [pi e floor abs exp sin]
-         ]))
 
-; mathematical functions 
+
+; mathematical functions
 
 ; implements algorithms e.g. from
 ;   Abelson, Sussman and Sussman; 'Structure and Interpretation of Computer Programs';
@@ -49,12 +49,12 @@
   [x]
   (* x x x))
 
-(defn avg 
+(defn avg
   "Calculates the avarage of x and y or of the values of coll."
   ([x y]
-    (/ (+ x y) 2))
+   (/ (+ x y) 2))
   ([coll]
-    (/ (reduce + 0 coll) (count coll))))
+   (/ (reduce + 0 coll) (count coll))))
 
 ;
 ; special trigonometric functions
@@ -64,7 +64,7 @@
   (let [r (atan (/ a b))] ; TODO handle b = 0 case
     (cond
       (< b 0) (if (< a 0)
-                 (- r pi) ; adjust quadrant 
+                 (- r pi) ; adjust quadrant
                  (+ r pi)) ; adjust quadrant
       :default r)))
 
@@ -86,7 +86,7 @@
   (let [t (/ 1
              (+ 1 (* 1/2 (abs x))))]
     (- 1 (* t (exp (+ (* -1 x x)
-                         -1.26551223
+                      -1.26551223
                       (*  1.00002368 t)
                       (*  0.37409196 t t)
                       (*  0.09678418 t t t)
@@ -107,9 +107,9 @@
 
 (defn erfc
   "Calculates the complementary gaussian error function."
-  [x]
+  [x])
   ; TODO implement
-  )
+
 
 ;
 ; mathematical algorithms
@@ -125,22 +125,22 @@
 (defn primes
   "Returns a lazy sequence of primes."
   ([]
-    (primes (iterate inc 2)))
+   (primes (iterate inc 2)))
   ([s]
-    (cons (first s)
-          (lazy-seq (primes (filter #(not= 0 (mod % (first s))) (rest s)))))))
+   (cons (first s)
+         (lazy-seq (primes (filter #(not= 0 (mod % (first s))) (rest s)))))))
 
 (defn round-up
   "Rounds a value."
   [x n]
-  (/ (floor (+ (* x (exp 10 n)) 0.5)) (exp 10 n )))
+  (/ (floor (+ (* x (exp 10 n)) 0.5)) (exp 10 n)))
 
 (defn close-enough?
   "Checks for a difference smaller than epsilon"
   ([x y]
-    (close-enough? x y default-epsilon))
+   (close-enough? x y default-epsilon))
   ([x y epsilon]
-    (< (abs (- x y)) epsilon)))
+   (< (abs (- x y)) epsilon)))
 
 (defn average-damp [f]
   "Returns a function with average dampening for the given function."
@@ -170,42 +170,42 @@
 (defn search-value
   "Searches for value."
   ([f v low high]
-    (search-value f v low high default-epsilon))
-  ([f v low high epsilon] 
-    (let [mid (avg low high)]
-      (if (close-enough? low high epsilon)
-          mid
-          (let [v-test (f mid)]
-            (cond
-              (> v-test v) (recur f v low mid epsilon)
-              (< v-test v) (recur f v mid high epsilon)
-              :default mid))))))
+   (search-value f v low high default-epsilon))
+  ([f v low high epsilon]
+   (let [mid (avg low high)]
+     (if (close-enough? low high epsilon)
+         mid
+         (let [v-test (f mid)]
+           (cond
+             (> v-test v) (recur f v low mid epsilon)
+             (< v-test v) (recur f v mid high epsilon)
+             :default mid))))))
 
 (defn search-zero
   "Searches for zero."
   ([f neg-point pos-point]
-    (search-zero f neg-point pos-point default-epsilon))
-  ([f neg-point pos-point epsilon] 
-    (let [midpoint (avg neg-point pos-point)]
-      (if (close-enough? neg-point pos-point epsilon)
-          midpoint
-          (let [test-value (f midpoint)]
-            (cond
-              (pos? test-value) (recur f neg-point midpoint epsilon)
-              (neg? test-value) (recur f midpoint pos-point epsilon)
-              :default midpoint))))))
+   (search-zero f neg-point pos-point default-epsilon))
+  ([f neg-point pos-point epsilon]
+   (let [midpoint (avg neg-point pos-point)]
+     (if (close-enough? neg-point pos-point epsilon)
+         midpoint
+         (let [test-value (f midpoint)]
+           (cond
+             (pos? test-value) (recur f neg-point midpoint epsilon)
+             (neg? test-value) (recur f midpoint pos-point epsilon)
+             :default midpoint))))))
 
 (defn half-intervall
   "Half intervall method for the function f and values a and b."
   ([f a b]
-    (half-intervall f a b default-epsilon))
+   (half-intervall f a b default-epsilon))
   ([f a b epsilon]
-    (let [a-value (f a)
-          b-value (f b)]
-      (cond
-        (and (neg? a-value) (pos? b-value)) (search-zero f a b epsilon)
-        (and (neg? b-value) (pos? a-value)) (search-zero f b a epsilon)
-        :default (throw (IllegalArgumentException. (str "Values are not of opposite sign: " a " " b)))))))
+   (let [a-value (f a)
+         b-value (f b)]
+     (cond
+       (and (neg? a-value) (pos? b-value)) (search-zero f a b epsilon)
+       (and (neg? b-value) (pos? a-value)) (search-zero f b a epsilon)
+       :default (throw (IllegalArgumentException. (str "Values are not of opposite sign: " a " " b)))))))
 
 (defn fixed-point
   "Calculates a fixed point of the function f."
@@ -219,42 +219,42 @@
 (defn integral
   "Calculates the integral of function f between a and b with dx."
   ([f a b]
-    (integral f a b default-dx))
+   (integral f a b default-dx))
   ([f a b dx]
-    (* (sum f (+ a (/ dx 2)) (partial + dx) b) dx)))
+   (* (sum f (+ a (/ dx 2)) (partial + dx) b) dx)))
 
 (defn difference-quotient
   "Calculates the difference quotient of the function f at x with the delta dx."
   ([f x]
-    (difference-quotient f x default-dx))
+   (difference-quotient f x default-dx))
   ([f x dx]
-    (/ (- (f (+ x dx)) (f x))
-       dx)))
+   (/ (- (f (+ x dx)) (f x))
+      dx)))
 
 (defn derivation
   "Returns a funtion that is the derivation of the function f."
   ([f]
-    (derivation f default-dx))
+   (derivation f default-dx))
   ([f dx]
-    (fn [x]
-      ; (difference-quotient f x dx)
-      (/ (- (f (+ x dx)) (f x))
-               dx))))
+   (fn [x]
+     ; (difference-quotient f x dx)
+     (/ (- (f (+ x dx)) (f x))
+        dx))))
 
 (defn newton-transform
   "Returns a function which is the newton transfomation of the given function f."
   ([f]
-    (newton-transform f default-dx))
+   (newton-transform f default-dx))
   ([f dx]
-    (fn [x]
-      (- x (/ (f x) ((derivation f dx) x))))))
+   (fn [x]
+     (- x (/ (f x) ((derivation f dx) x))))))
 
 (defn newton-method
   "Newton method for searching a root of the function f starting with guess."
   ([f guess]
-    (newton-method f default-dx guess))
+   (newton-method f default-dx guess))
   ([f dx guess]
-    (fixed-point (newton-transform f dx) guess)))
+   (fixed-point (newton-transform f dx) guess)))
 
 (defn quadratic-roots
   "Returns the roots of the quadratic equation (a * x^2 + b * x + c = 0)."
@@ -262,4 +262,3 @@
   (let [d (- (* b b) (* 4 a c))]
     [(/ (+ (- b) (sqrt d)) (* 2 a))
      (/ (- (- b) (sqrt d)) (* 2 a))]))
-
