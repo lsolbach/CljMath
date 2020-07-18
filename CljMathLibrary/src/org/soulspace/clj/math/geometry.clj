@@ -15,9 +15,9 @@
 (defn circle-circumference
   "Calculates the circumference of the circle with radius r."
   [r]
-  (* 2 (pi) r))
+  (* 2 pi r))
 
 (defn circle-area
   "Calculates the area of the circle with radius r."
   [r]
-  (* (pi) (sqr r)))
+  (* pi (sqr r)))
