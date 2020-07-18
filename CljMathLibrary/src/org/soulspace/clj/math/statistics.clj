@@ -192,7 +192,7 @@
     (m/build-matrix rows cols (fn [i j] (- (m/element i j) (means j))))))
 
 ;
-; gradient descent (TODO move to a different namespace (e.g. graadient or optimization))
+; gradient descent (TODO move to a different namespace (e.g. gradient or optimization))
 ;
 (def step-sizes [100 10 1 0.1 0.01 0.001 0.0001 0.00001])
 
@@ -279,15 +279,12 @@
     ; TODO implement
     ; use (shuffle coll)
 
-
-
 (defn maximize-stochastic
   "Calculates ."
   ([target-fn gradient-fn x y theta-0]
    (maximize-stochastic target-fn gradient-fn x y theta-0 0.01))
   ([target-fn gradient-fn x y theta-0 alpha-0]
    (minimize-stochastic (negated-fn target-fn) (negated-all-fn gradient-fn) x y theta-0 alpha-0)))
-
 
 ;
 ; test gradient descent

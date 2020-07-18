@@ -12,7 +12,6 @@
     [org.soulspace.clj.math.math]
     [org.soulspace.clj.math.java-math :only [pi]]))
 
-
 (defn circle-circumference
   "Calculates the circumference of the circle with radius r."
   [r]
