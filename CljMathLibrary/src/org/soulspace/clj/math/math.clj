@@ -1,21 +1,23 @@
-;
-;   Copyright (c) Ludger Solbach. All rights reserved.
-;   The use and distribution terms for this software are covered by the
-;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
-;   which can be found in the file license.txt at the root of this distribution.
-;   By using this software in any fashion, you are agreeing to be bound by
-;   the terms of this license.
-;   You must not remove this notice, or any other, from this software.
-;
+;;
+;;   Copyright (c) Ludger Solbach. All rights reserved.
+;;   The use and distribution terms for this software are covered by the
+;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+;;   which can be found in the file license.txt at the root of this distribution.
+;;   By using this software in any fashion, you are agreeing to be bound by
+;;   the terms of this license.
+;;   You must not remove this notice, or any other, from this software.
+;;
+
 (ns org.soulspace.clj.math.math
   (:use [org.soulspace.clj.math.java-math]))
          ;:only [pi e floor abs exp sin]
 
-
-; mathematical functions
-
-; implements algorithms e.g. from
-;   Abelson, Sussman and Sussman; 'Structure and Interpretation of Computer Programs';
+;;
+;; Mathematical functions and algorithms
+;;
+;; implements algorithms e.g. from
+;;   Abelson, Sussman and Sussman; 'Structure and Interpretation of Computer Programs';
+;;
 
 ;(set! *warn-on-reflection* true)
 
@@ -110,25 +112,6 @@
   [x])
   ; TODO implement
 
-
-;
-; mathematical algorithms
-;
-(defn gcd
-  "Calculates the greatest common divisor of x and y"
-  [x y]
-  (if (= y 0)
-    x
-    (gcd y (rem x y))))
-
-; TODO this fn is subject to a StackOverflowException, find a better implementation.
-(defn primes
-  "Returns a lazy sequence of primes."
-  ([]
-   (primes (iterate inc 2)))
-  ([s]
-   (cons (first s)
-         (lazy-seq (primes (filter #(not= 0 (mod % (first s))) (rest s)))))))
 
 (defn round-up
   "Rounds a value."
