@@ -8,17 +8,9 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.clj.math.geometry
-  (:use
-    [org.soulspace.clj.math.math]
-    [org.soulspace.clj.math.java-math :only [pi]]))
+(ns org.soulspace.clj.math.gradient)
 
-(defn circle-circumference
-  "Calculates the circumference of the circle with radius r."
-  [r]
-  (* 2 pi r))
+;;
+;; Functions for gradients and gradient descent
+;;
 
-(defn circle-area
-  "Calculates the area of the circle with radius r."
-  [r]
-  (* pi (sqr r)))

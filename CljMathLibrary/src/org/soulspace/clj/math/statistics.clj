@@ -1,17 +1,22 @@
-;
-;   Copyright (c) Ludger Solbach. All rights reserved.
-;   The use and distribution terms for this software are covered by the
-;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
-;   which can be found in the file license.txt at the root of this distribution.
-;   By using this software in any fashion, you are agreeing to be bound by
-;   the terms of this license.
-;   You must not remove this notice, or any other, from this software.
-;
+;;
+;;   Copyright (c) Ludger Solbach. All rights reserved.
+;;   The use and distribution terms for this software are covered by the
+;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+;;   which can be found in the file license.txt at the root of this distribution.
+;;   By using this software in any fashion, you are agreeing to be bound by
+;;   the terms of this license.
+;;   You must not remove this notice, or any other, from this software.
+;;
+
 (ns org.soulspace.clj.math.statistics
   (:use [org.soulspace.clj.math math]
         [org.soulspace.clj.math.java-math :only [abs pow sqrt cbrt ceil]])
   (:require [org.soulspace.clj.math.matrix :as m]
             [org.soulspace.clj.math.vector :as v]))
+
+;;
+;; Statistics functions
+;;
 
 ; same as avg
 ;(defn geometric-average
@@ -53,7 +58,7 @@
 (defn quantile
   "Returns the q quantile"
   [q coll]
-  (let [x  (* (count coll) q) ]
+  (let [x  (* (count coll) q)]
     (if (integer? x)
       (/ (+ (nth coll (- x 1)) (nth coll x))
          2)
@@ -148,10 +153,10 @@
 (defn- estimated-parameters
   "Calculates the probability and standard deviation for a given test outcome of n out of N."
   ([[N n]]
-    (estimated-parameters N n))
+   (estimated-parameters N n))
   ([N n]
-    (let [p (/ n N)]
-      [p (sqrt (/ (* p (- 1 p)) N))])))
+   (let [p (/ n N)]
+     [p (sqrt (/ (* p (- 1 p)) N))])))
 
 (defn a-b-test-statistic
   "Calculates the statistic for the hypothesis, that p-a and p-b are the same, given the outcomes for test a and b."
@@ -181,7 +186,7 @@
         (/ (- (m/element m i j) (means j))
            (stdevs j))
         (m/element m i j)))
-    
+
     (m/build-matrix rows cols rescaled)))
 
 (defn de-mean-matrix
@@ -192,7 +197,7 @@
     (m/build-matrix rows cols (fn [i j] (- (m/element i j) (means j))))))
 
 ;
-; gradient descent (TODO move to a different namespace (e.g. graadient or optimization))
+; gradient descent (TODO move to a different namespace (e.g. gradient or optimization))
 ;
 (def step-sizes [100 10 1 0.1 0.01 0.001 0.0001 0.00001])
 
@@ -226,9 +231,9 @@
 (defn estimate-gradient
   "Estimates the gradient of f at v."
   ([f v]
-    (estimate-gradient f v 0.0000001))
+   (estimate-gradient f v 0.0000001))
   ([f v h]
-    (mapv #(partial-difference-quotient f v % h) (range (count v)))))
+   (mapv #(partial-difference-quotient f v % h) (range (count v)))))
 
 (defn step
   "Returns the vector v moved step-size in direction."
@@ -251,43 +256,40 @@
 (defn minimize-batch
   "Calculates ."
   ([target-fn gradient-fn theta-0]
-    (minimize-batch target-fn gradient-fn theta-0 default-epsilon))
+   (minimize-batch target-fn gradient-fn theta-0 default-epsilon))
   ([target-fn gradient-fn theta-0 tolerance]
-    (let [target-fn (safe-fn target-fn)]
-      (loop [theta theta-0
-             value (target-fn theta)]
-        (let [gradient (gradient-fn theta)
-              next-thetas (map #(step theta gradient (* -1 %)) step-sizes)
-              next-theta (apply min-key target-fn next-thetas)
-              next-value (target-fn next-theta)]
-          (if (< (abs (- value next-value)) tolerance)
-            theta
-            (recur next-theta next-value)))))))
-  
+   (let [target-fn (safe-fn target-fn)]
+     (loop [theta theta-0
+            value (target-fn theta)]
+       (let [gradient (gradient-fn theta)
+             next-thetas (map #(step theta gradient (* -1 %)) step-sizes)
+             next-theta (apply min-key target-fn next-thetas)
+             next-value (target-fn next-theta)]
+         (if (< (abs (- value next-value)) tolerance)
+           theta
+           (recur next-theta next-value)))))))
+
 (defn maximize-batch
   "Calculates the theta that minimizes the target function by gradient descent."
   ([target-fn gradient-fn theta-0]
-    (maximize-batch target-fn gradient-fn theta-0 default-epsilon))
+   (maximize-batch target-fn gradient-fn theta-0 default-epsilon))
   ([target-fn gradient-fn theta-0 tolerance]
-    (minimize-batch (negated-fn target-fn) (negated-all-fn gradient-fn) theta-0 tolerance)))
+   (minimize-batch (negated-fn target-fn) (negated-all-fn gradient-fn) theta-0 tolerance)))
 
 (defn minimize-stochastic
   "Calculates ."
   ([target-fn gradient-fn x y theta-0]
-    (minimize-stochastic target-fn gradient-fn x y theta-0 0.01))
-  ([target-fn gradient-fn x y theta-0 alpha-0]
+   (minimize-stochastic target-fn gradient-fn x y theta-0 0.01))
+  ([target-fn gradient-fn x y theta-0 alpha-0]))
     ; TODO implement
     ; use (shuffle coll)
-    
-    ))
 
 (defn maximize-stochastic
   "Calculates ."
   ([target-fn gradient-fn x y theta-0]
-    (maximize-stochastic target-fn gradient-fn x y theta-0 0.01))
+   (maximize-stochastic target-fn gradient-fn x y theta-0 0.01))
   ([target-fn gradient-fn x y theta-0 alpha-0]
-    (minimize-stochastic (negated-fn target-fn) (negated-all-fn gradient-fn) x y theta-0 alpha-0)))
-
+   (minimize-stochastic (negated-fn target-fn) (negated-all-fn gradient-fn) x y theta-0 alpha-0)))
 
 ;
 ; test gradient descent

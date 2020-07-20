@@ -73,9 +73,9 @@
 (defn complex
   "Creates a complex number from real and imaginary parts."
   ([r]
-    (DoubleComplexImpl. r 0))
+   (DoubleComplexImpl. r 0))
   ([r i]
-    (DoubleComplexImpl. r i)))
+   (DoubleComplexImpl. r i)))
 
 (defn polar-complex
   "Creates a complex number from polar coordinates."

@@ -8,13 +8,13 @@
 ;   You must not remove this notice, or any other, from this software.
 ;
 (ns org.soulspace.clj.math.finance
-  (:use [org.soulspace.clj.math.math]
-        [org.soulspace.clj.math.java-math]))
+  (:use [org.soulspace.clj.math math java-math]))
 
 ; german/english translations
 ; Rente, Annuität = annuity
 ; Kredit = credit, loan
 ; Tilgung = redemption
+; Barwert = cash value
 
 ; var names
 ; k0 := credit sum
@@ -66,11 +66,13 @@
 ;(defn annuity-cash-value)
 
 (defn accumulated-rates
+  ""
   [r q m]
-  (* r 
+  (* r
     (/ (- (pow q m) 1) (- q 1))))
 
 (defn discounted-rates
+  ""
   [r q m]
   (* r
     (/ (- (pow q m) 1) (- q 1))
@@ -79,11 +81,12 @@
 (defn annuity-factor
   "Calculates the annuity factor for interest 'q' and 'n' periods."
   [q n]
-  (/ 
-    (* (pow q n) (- q 1)) 
+  (/
+    (* (pow q n) (- q 1))
     (- (pow q n) 1)))
 
 (defn annuity-rent-Rn
+  ""
   [r q n]
   (accumulated-rates r q n))
 
@@ -93,28 +96,33 @@
   (* k0 (annuity-factor q n)))
 
 (defn annuity-credit-Km
+  ""
   [k0 a q m]
-  (- 
+  (-
     (accumulated-value k0 q m)
     (accumulated-rates a q m)))
 
 (defn annuity-term
+  ""
   [k0 a q]
-  (/ 
+  (/
     (log (/ a (- a (* k0 (- q 1)))))
     (log q)))
 
 (defn annuity-rate-by-interest
+  ""
   [k0 i it]
   (* k0 (+ i it)))
 
 (defn annuity-term-by-interest
+  ""
   [i it]
-  (/ 
+  (/
     (log (+ 1 (/ i it)))
     (log (+ 1 i))))
 
 (defn annuity-redemption-plan
+  ""
   [k0 a q]
   (let [n (annuity-term k0 a q)]
     (loop [i 1 plan []]

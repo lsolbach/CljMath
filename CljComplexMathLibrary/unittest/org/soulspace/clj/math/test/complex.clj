@@ -9,12 +9,12 @@
 ;
 (ns org.soulspace.clj.math.test.complex
   (:use [clojure.test]
-        [org.soulspace.clj.math.complex])
+        [org.soulspace.clj.math.complex]))
   ;(:import [org.soulspace.clj.math.complex DoublePolarComplexImpl DoubleComplexImpl])
-  )
 
-(deftest complex-test
-  )
+
+(deftest complex-test)
+
 
 (deftest zero-test
   (is (= (zero) (complex 0 0))))
@@ -36,34 +36,34 @@
   (is (= (add (one) (i)) (complex 1 1)))
   (is (= (add (i) (one)) (complex 1 1)))
   (is (= (reduce add (zero) [(zero) (zero)]) (zero)))
-  (is (= (reduce add (one) [(one) (one)]) (complex 3 0)))
-  )
+  (is (= (reduce add (one) [(one) (one)]) (complex 3 0))))
+
 
 (deftest mult-test
   (is (= (mult (one) (one)) (one)))
   (is (= (mult (zero) (one)) (zero)))
   (is (= (mult (one) (zero)) (zero)))
   (is (= (mult (one) (i)) (i)))
-  (is (= (mult (i) (one)) (i)))
-  )
+  (is (= (mult (i) (one)) (i))))
+
 
 (deftest sub-test
-  (is (= (sub (zero) (zero)) (zero)))
-  )
+  (is (= (sub (zero) (zero)) (zero))))
+
 
 (deftest div-test
-  (is (= (div (one) (one)) (one)))
-  )
+  (is (= (div (one) (one)) (one))))
+
 
 (deftest conjugate-test
   (is (= (conjugate (complex 1 3)) (complex 1 -3)))
-  (is (= (conjugate (complex 1 -3)) (complex 1 3)))
-  )
+  (is (= (conjugate (complex 1 -3)) (complex 1 3))))
 
-(deftest to-polar-test
-  )
 
-(deftest from-polar-test
-  )
+(deftest to-polar-test)
+
+
+(deftest from-polar-test)
+
 
 (run-tests)
