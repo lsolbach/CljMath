@@ -1,19 +1,15 @@
-CljComplexMathLibrary
-=====================
-The CljComplexMathLibrary is a library for complex numbers.
-
-Author/Project Lead
--------------------
-Ludger Solbach
+math.complex
+============
+The math.complex library is a library for complex numbers in Clojure.
 
 Copyright
 ---------
-© 2011-2015 Ludger Solbach
+© 2011-2020 Ludger Solbach
 
 License
 -------
-[Eclipse Public License 1.0] (http://www.eclipse.org/legal/epl-v10.html "EPL 1.0")
+[Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html)
 
 Code Repository
 ---------------
-[https://github.com/lsolbach/CljMath/CljComplexMathLibrary] (https://github.com/lsolbach/CljMath/CljComplexMathLibrary)
+[CljMath on GitHub](https://github.com/lsolbach/CljMath)

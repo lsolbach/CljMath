@@ -1,21 +1,17 @@
-CljFinancialMathLibrary
-=======================
-The CljFinancialMathLibrary is a library with financial math functions.
-
-Author/Project Lead
--------------------
-Ludger Solbach
+math.financial
+==============
+The math.financial library contains financial math functions in Clojure.
 
 Copyright
 ---------
-© 2011-2015 Ludger Solbach
+© 2011-2020 Ludger Solbach
 
 License
 -------
-[Eclipse Public License 1.0] (http://www.eclipse.org/legal/epl-v10.html "EPL 1.0")
+[Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html)
 
 Code Repository
 ---------------
-[https://github.com/lsolbach/CljMath/CljFinancialMathLibrary] (https://github.com/lsolbach/CljMath/CljFinancialMathLibrary)
+[CljMath on GitHub] (https://github.com/lsolbach/CljMath)
 
 
