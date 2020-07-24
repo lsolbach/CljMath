@@ -1,19 +1,25 @@
-;
-;   Copyright (c) Ludger Solbach. All rights reserved.
-;   The use and distribution terms for this software are covered by the
-;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
-;   which can be found in the file license.txt at the root of this distribution.
-;   By using this software in any fashion, you are agreeing to be bound by
-;   the terms of this license.
-;   You must not remove this notice, or any other, from this software.
-;
-(ns org.soulspace.clj.math.complex
-  (:use [org.soulspace.clj.math math java-math]))
+;;
+;;   Copyright (c) Ludger Solbach. All rights reserved.
+;;   The use and distribution terms for this software are covered by the
+;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+;;   which can be found in the file license.txt at the root of this distribution.
+;;   By using this software in any fashion, you are agreeing to be bound by
+;;   the terms of this license.
+;;   You must not remove this notice, or any other, from this software.
+;;
+
+(ns org.soulspace.math.complex
+  (:use [org.soulspace.math math java-math]))
 
 (set! *warn-on-reflection* true)
 (declare complex)
 
-; Complex numbers
+;;
+;; Complex numbers
+;;
+
+; TODO: extract functions from records
+
 (defprotocol Complex
   "Protocol for complex numbers in algebraic form."
   (real [c] "Real part of the complex number.")
@@ -66,7 +72,7 @@
   PolarComplex
   (r [p] (:r p))
   (a [p] (:a p))
-  (sqrt-polar [p])
+  (sqrt-polar [p]) ; TODO
   (to-complex [p]
               (mult (complex (:r p)) (complex (cos (:a p)) (sin (:a p))))))
 

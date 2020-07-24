@@ -7,10 +7,10 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.math.test.complex
+(ns org.soulspace.math.test.complex
   (:use [clojure.test]
-        [org.soulspace.clj.math.complex]))
-  ;(:import [org.soulspace.clj.math.complex DoublePolarComplexImpl DoubleComplexImpl])
+        [org.soulspace.math.complex]))
+  ;(:import [org.soulspace.math.complex DoublePolarComplexImpl DoubleComplexImpl])
 
 
 (deftest complex-test)
