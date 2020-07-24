@@ -1,19 +1,15 @@
-CljOctonionMathLibrary
-======================
-The CljComplexMathLibrary is a library for octonion numbers.
-
-Author/Project Lead
--------------------
-Ludger Solbach
+math.octonion
+=============
+The math.octonion library is a Clojure library for 8th dimensional octonion numbers.
 
 Copyright
 ---------
-© 2011-2015 Ludger Solbach
+© 2011-2029 Ludger Solbach
 
 License
 -------
-[Eclipse Public License 1.0] (http://www.eclipse.org/legal/epl-v10.html "EPL 1.0")
+[Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html)
 
 Code Repository
 ---------------
-[https://github.com/lsolbach/CljOctonionMathLibrary] (https://github.com/lsolbach/CljOctonionMathLibrary)
+[CljMath on GitHub](https://github.com/lsolbach/CljMath)
