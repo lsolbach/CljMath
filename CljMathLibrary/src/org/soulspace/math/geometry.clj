@@ -8,10 +8,10 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.clj.math.geometry
+(ns org.soulspace.math.geometry
   (:use
-    [org.soulspace.clj.math.math]
-    [org.soulspace.clj.math.java-math :only [pi]]))
+    [org.soulspace.math.math]
+    [org.soulspace.math.java-math :only [pi]]))
 
 (defn circle-circumference
   "Calculates the circumference of the circle with radius r."

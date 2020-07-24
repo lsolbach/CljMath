@@ -8,7 +8,7 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.clj.math.gradient)
+(ns org.soulspace.math.gradient)
 
 ;;
 ;; Functions for gradients and gradient descent

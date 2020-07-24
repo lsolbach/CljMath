@@ -8,9 +8,9 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.clj.math.math
-  (:use [org.soulspace.clj.math.java-math]))
-         ;:only [pi e floor abs exp sin]
+(ns org.soulspace.math.math
+  (:require [org.soulspace.math.java-math :refer :all]))
+         ;:only [pi e floor abs sqrt exp sin atan asin]
 
 ;;
 ;; Mathematical functions and algorithms
@@ -23,6 +23,23 @@
 
 (def default-epsilon "Default tolerance (epsilon)." 0.00001)
 (def default-dx "Default step size (delta x)." 0.0000001)
+
+(defn sqr
+  "Calculates the square of x."
+  [x]
+  (* x x))
+
+(defn cube
+  "Calculates the cube of x."
+  [x]
+  (* x x x))
+
+(defn avg
+  "Calculates the avarage of x and y or of the values of coll."
+  ([x y]
+   (/ (+ x y) 2))
+  ([coll]
+   (/ (reduce + 0 coll) (count coll))))
 
 (defn factorial
   "Calculates the factorial of x."
@@ -41,22 +58,7 @@
       (= cnt 0) b
       :default (recur (+' a b) a (dec cnt)))))
 
-(defn sqr
-  "Calculates the square of x."
-  [x]
-  (* x x))
 
-(defn cube
-  "Calculates the cube of x."
-  [x]
-  (* x x x))
-
-(defn avg
-  "Calculates the avarage of x and y or of the values of coll."
-  ([x y]
-   (/ (+ x y) 2))
-  ([coll]
-   (/ (reduce + 0 coll) (count coll))))
 
 ;
 ; special trigonometric functions
@@ -238,10 +240,3 @@
    (newton-method f default-dx guess))
   ([f dx guess]
    (fixed-point (newton-transform f dx) guess)))
-
-(defn quadratic-roots
-  "Returns the roots of the quadratic equation (a * x^2 + b * x + c = 0)."
-  [a b c]
-  (let [d (- (* b b) (* 4 a c))]
-    [(/ (+ (- b) (sqrt d)) (* 2 a))
-     (/ (- (- b) (sqrt d)) (* 2 a))]))

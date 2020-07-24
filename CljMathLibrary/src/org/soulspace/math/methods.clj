@@ -8,14 +8,15 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.clj.math.methods)
+(ns org.soulspace.math.methods
+  (:require [org.soulspace.math.java-math]))
 
 ;;
-;; Mathemathical algorithms
+;; Mathemathical algorithms and methods
 ;;
 
 ;;
-;; mathematical algorithms
+;; number theory
 ;;
 
 (defn gcd
@@ -34,3 +35,13 @@
    (cons (first s)
          (lazy-seq (primes (filter #(not= 0 (mod % (first s))) (rest s)))))))
 
+;;
+;; 
+;;
+
+(defn quadratic-roots
+  "Returns the roots of the quadratic equation (a * x^2 + b * x + c = 0)."
+  [a b c]
+  (let [d (- (* b b) (* 4 a c))]
+    [(/ (+ (- b) (sqrt d)) (* 2 a))
+     (/ (- (- b) (sqrt d)) (* 2 a))]))

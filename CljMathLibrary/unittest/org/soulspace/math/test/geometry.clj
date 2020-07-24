@@ -1,6 +1,6 @@
-(ns org.soulspace.clj.math.test.geometry
+(ns org.soulspace.math.test.geometry
   (:use [clojure.test]
-        [org.soulspace.clj.math math java-math geometry]))
+        [org.soulspace.math math java-math geometry]))
 
 (deftest circle-circumference-test
   (is (= (circle-circumference 0) 0.0))

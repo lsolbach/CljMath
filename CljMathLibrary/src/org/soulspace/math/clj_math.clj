@@ -8,8 +8,8 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.clj.math.clj-math
-  (:use [org.soulspace.clj.math.math :only [sqr fixed-point average-damp]]))
+(ns org.soulspace.math.clj-math
+  (:use [org.soulspace.math.math :only [sqr fixed-point average-damp]]))
 
 ;;
 ;; Clojure implementation of some mathematical functions

@@ -7,9 +7,9 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.math.test.statistics
+(ns org.soulspace.math.test.statistics
   (:use [clojure.test]
-        [org.soulspace.clj.math math java-math statistics]))
+        [org.soulspace.math math java-math statistics]))
 
 (deftest avg-test
   (is (== (avg [3 3 3 3 3]) 3))

@@ -8,7 +8,7 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.clj.math.matrix)
+(ns org.soulspace.math.matrix)
 
 ;;
 ;; Matrix functions

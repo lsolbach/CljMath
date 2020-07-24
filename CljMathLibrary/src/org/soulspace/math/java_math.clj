@@ -8,7 +8,7 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.clj.math.java-math)
+(ns org.soulspace.math.java-math)
 
 ; clojure wrapper for java.lang.Math 
 (set! *warn-on-reflection* true)

@@ -8,8 +8,8 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.clj.math.vector
-  (:use [org.soulspace.clj.math java-math]))
+(ns org.soulspace.math.vector
+  (:use [org.soulspace.math java-math]))
 
 ;;
 ;; Vector functions

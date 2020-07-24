@@ -8,8 +8,8 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.clj.math.probability
-  (:use [org.soulspace.clj.math math java-math]))
+(ns org.soulspace.math.probability
+  (:use [org.soulspace.math math java-math]))
 
 ;;
 ;; Probability functions

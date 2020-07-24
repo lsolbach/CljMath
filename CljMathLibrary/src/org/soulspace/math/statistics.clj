@@ -8,11 +8,11 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.clj.math.statistics
-  (:use [org.soulspace.clj.math math]
-        [org.soulspace.clj.math.java-math :only [abs pow sqrt cbrt ceil]])
-  (:require [org.soulspace.clj.math.matrix :as m]
-            [org.soulspace.clj.math.vector :as v]))
+(ns org.soulspace.math.statistics
+  (:use [org.soulspace.math math]
+        [org.soulspace.math.java-math :only [abs pow sqrt cbrt ceil]])
+  (:require [org.soulspace.math.matrix :as m]
+            [org.soulspace.math.vector :as v]))
 
 ;;
 ;; Statistics functions
