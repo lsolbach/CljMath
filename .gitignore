@@ -1,7 +1,7 @@
 *.*~
 
 ## Clojure
-**/.nrepl-port
+.nrepl-port
 
 ## Leiningen
 target/

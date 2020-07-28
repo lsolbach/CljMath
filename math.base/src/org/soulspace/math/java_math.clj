@@ -10,7 +10,7 @@
 
 (ns org.soulspace.math.java-math)
 
-; clojure wrapper for java.lang.Math 
+; clojure wrapper for java.lang.Math
 (set! *warn-on-reflection* true)
 
 (def pi
