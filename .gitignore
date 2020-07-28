@@ -4,15 +4,15 @@
 **/.nrepl-port
 
 ## Leiningen
-**/target
-**/.lein-failures
-**/.lein-repl-history
+target/
+.lein-failures
+.lein-repl-history
 # only for Leiningen projects, remove for Maven projects
 **/pom.xml
 
 ## Eclipse
-**/.classpath
-**/.project
-**/.settings
-**/bin/
-**/hs_err_pid*.log
+.classpath
+.project
+.settings/
+bin/
+hs_err_pid*.log
