@@ -6,9 +6,6 @@ This repository contains Clojure mathematical libraries.
 It contains these modules
  * math.base
  * math.financial
- * math.complex
- * math.quaternion
- * math.octonion
 
 Licence
 -------

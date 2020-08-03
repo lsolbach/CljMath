@@ -24,6 +24,163 @@
 (def default-epsilon "Default tolerance (epsilon)." 0.00001)
 (def default-dx "Default step size (delta x)." 0.0000001)
 
+
+(set! *warn-on-reflection* true)
+
+(def pi
+  (Math/PI))
+
+(def e
+  (Math/E))
+
+(def ^:private ln-2 (Math/log 2))
+
+(defn abs
+  "Calculates the absolute of x (with java.lang.Math)."
+  ^double [^double x]
+  (Math/abs x))
+
+(defn sign
+  "Calculates the sign of x (with java.lang.Math)."
+  ^double [^double x]
+  (Math/signum x))
+
+(defn floor
+  "Calculates the floor of x (with java.lang.Math)."
+  [^double x]
+  (Math/floor x))
+
+(defn ceil
+  "Calculates the ceiling of x (with java.lang.Math)."
+  [^double x]
+  (Math/ceil x))
+
+(defn sqrt
+  "Calculates the square root of x (with java.lang.Math)."
+  [^double x]
+  (Math/sqrt x))
+
+(defn cbrt
+  "Calculates the cubic root of x (with java.lang.Math)."
+  [^double x]
+  (Math/cbrt x))
+
+(defn pow
+  "Calculates x raised to the power of y (with java.lang.Math)."
+  [^double x ^double y]
+  (Math/pow x y))
+
+(defn exp
+  "Calculates the exponential function of x (with java.lang.Math)."
+  [^double x]
+  (Math/exp x))
+
+(defn expm1
+  "Calulates e to the power of x minus 1."
+  [^double x]
+  (Math/expm1 x))
+
+(defn log
+  "Calculates the natural logarithm (with base e) of x (with java.lang.Math)."
+  [^double x]
+  (Math/log x))
+
+(defn log-with-base
+  "Calculates the logarithm with base b of x."
+  [^double b ^double x]
+  (/ (Math/log x) (Math/log b)))
+
+(defn log10
+  "Calculates the logarithm with base 10 of x (with java.lang.Math)."
+  [^double x]
+  (Math/log10 x))
+
+(defn alog10
+  "Calculates the inverse of the logarithm with base 2 of x (with java.lang.Math)."
+  [^double x]
+  (Math/pow 10 x))
+
+(defn log2
+  "Calculates the logarithm with base 2 of x (with java.lang.Math)."
+  [^double x]
+  (/ (Math/log x) ln-2))
+
+(defn alog2
+  "Calculates the inverse of the logarithm with base 2 of x (with java.lang.Math)."
+  [^double x]
+  (Math/pow 2 x))
+
+(defn log1p
+  "Calculates the natural logarithm of the sum of x and 1."
+  [^double x]
+  (Math/log1p x))
+
+; Trigonometrical functions
+
+(defn cos
+  [^double x]
+  "Calculates the cosine of x (with java.lang.Math)."
+  (Math/cos x))
+
+(defn sin
+  "Calculates the sine of x (with java.lang.Math)."
+  [^double x]
+  (Math/sin x))
+
+(defn tan
+  "Calculates the tangens of x (with java.lang.Math)."
+  [^double x]
+  (Math/tan x))
+
+(defn acos
+  "Calculates the arc cosine of x (with java.lang.Math)."
+  [^double x]
+  (Math/acos x))
+
+(defn asin
+  "Calculates the arc sine of x (with java.lang.Math)."
+  [^double x]
+  (Math/asin x))
+
+(defn atan
+  "Calculates the arc tangens of x (with java.lang.Math)."
+  [^double x]
+  (Math/atan x))
+
+(defn cosh
+  "Calculates the hyperbolic cosine of x (with java.lang.Math)."
+  [^double x]
+  (Math/cosh x))
+
+(defn sinh
+  "Calculates the hyperbolic sine of x (with java.lang.Math)."
+  [^double x]
+  (Math/sinh x))
+
+(defn tanh
+  "Calculates the hyperbolic tangens of x (with java.lang.Math)."
+  [^double x]
+  (Math/tanh x))
+
+(defn hypot
+  "Calculates the hypothenuse of x and y (Pythagoras) (with java.lang.Math)."
+  [^double x ^double y]
+  (Math/hypot x y))
+
+(defn deg-to-rad
+  "Converts degrees to radians (with java.lang.Math)."
+  [^double deg]
+  (Math/toRadians deg))
+
+(defn rad-to-deg
+  "Converts radians to degrees (with java.lang.Math)."
+  [^double rad]
+  (Math/toDegrees rad))
+
+;;
+;;
+;;
+
 (defn sqr
   "Calculates the square of x."
   [x]
