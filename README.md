@@ -1,4 +1,4 @@
-CljBase Repository
+CljMath Repository
 ==================
 
 This repository contains Clojure mathematical libraries.
