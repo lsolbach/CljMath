@@ -24,7 +24,7 @@
   [x y]
   (if (= y 0)
     x
-    (gcd y (rem x y))))
+    (recur y (rem x y))))
 
 ; TODO this fn is subject to a StackOverflowException, find a better implementation.
 (defn primes
@@ -35,13 +35,3 @@
    (cons (first s)
          (lazy-seq (primes (filter #(not= 0 (mod % (first s))) (rest s)))))))
 
-;;
-;; 
-;;
-
-(defn quadratic-roots
-  "Returns the roots of the quadratic equation (a * x^2 + b * x + c = 0)."
-  [a b c]
-  (let [d (- (* b b) (* 4 a c))]
-    [(/ (+ (- b) (sqrt d)) (* 2 a))
-     (/ (- (- b) (sqrt d)) (* 2 a))]))

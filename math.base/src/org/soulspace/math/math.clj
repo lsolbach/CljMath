@@ -58,8 +58,6 @@
       (= cnt 0) b
       :default (recur (+' a b) a (dec cnt)))))
 
-
-
 ;
 ; special trigonometric functions
 ;
@@ -149,11 +147,25 @@
     (* (term a)
        (prod term (nxt a) nxt b))))
 
-;
-; calculus/analysis
-;
+;;
+;; 
+;;
+
+(defn quadratic-roots
+  "Returns the roots of the quadratic equation (a * x^2 + b * x + c = 0)."
+  [a b c]
+  ; minus is subject to catastrophic cancelling of significant digits in
+  ; floating point calculations
+  ; TODO: refactor for better numeric stability
+  (let [d (- (* b b) (* 4 a c))]
+    [(/ (+ (- b) (sqrt d)) (* 2 a))
+     (/ (- (- b) (sqrt d)) (* 2 a))]))
+
+;;
+;; calculus/analysis
+;;
 (defn search-value
-  "Searches for value."
+  "Searches for value by interval search."
   ([f v low high]
    (search-value f v low high default-epsilon))
   ([f v low high epsilon]
@@ -167,7 +179,7 @@
              :default mid))))))
 
 (defn search-zero
-  "Searches for zero."
+  "Searches for zero by interval search."
   ([f neg-point pos-point]
    (search-zero f neg-point pos-point default-epsilon))
   ([f neg-point pos-point epsilon]
