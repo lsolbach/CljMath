@@ -9,16 +9,14 @@
 ;;
 
 (ns org.soulspace.math.geometry
-  (:use
-    [org.soulspace.math.math]
-    [org.soulspace.math.java-math :only [pi]]))
+  (:require [org.soulspace.math.core :as m]))
 
 (defn circle-circumference
   "Calculates the circumference of the circle with radius r."
   [r]
-  (* 2 pi r))
+  (* 2 m/pi r))
 
 (defn circle-area
   "Calculates the area of the circle with radius r."
   [r]
-  (* pi (sqr r)))
+  (* m/pi (m/sqr r)))

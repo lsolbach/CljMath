@@ -9,10 +9,9 @@
 ;;
 
 (ns org.soulspace.math.statistics
-  (:use [org.soulspace.math math]
-        [org.soulspace.math.java-math :only [abs pow sqrt cbrt ceil]])
-  (:require [org.soulspace.math.matrix :as m]
-            [org.soulspace.math.vector :as v]))
+  (:require [org.soulspace.math.core :as m]
+            [org.soulspace.math.matrix :as mm]
+            [org.soulspace.math.vector :as mv]))
 
 ;;
 ;; Statistics functions
@@ -26,11 +25,11 @@
 
 (def mean
   "Returns the mean of the values of the coll."
-  avg)
+  m/avg)
 
 (def geometric-average
   "Returns the geometric average (mean) of the values of the coll."
-  avg)
+  m/avg)
 
 (defn harmonic-average
   "Returns the harmonic average of the values of the coll."
@@ -40,14 +39,14 @@
 (defn square-average
   "Returns the square average of the values of the coll."
   [coll]
-  (sqrt (/ (reduce + 0 (map sqr coll))
-           (count coll))))
+  (m/sqrt (/ (reduce + 0 (map m/sqr coll))
+             (count coll))))
 
 (defn cubic-average
   "Returns the cubic average of the values of the coll."
   [coll]
-  (cbrt (/ (reduce + 0 (map cube coll))
-           (count coll))))
+  (m/cbrt (/ (reduce + 0 (map m/cube coll))
+             (count coll))))
 
 (defn de-mean
   "Returns a collection with the mean substacted from each value of input coll."
@@ -62,7 +61,7 @@
     (if (integer? x)
       (/ (+ (nth coll (- x 1)) (nth coll x))
          2)
-      (nth coll (- (ceil x) 1)))))
+      (nth coll (- (m/ceil x) 1)))))
 
 (defn median
   "Returns the median / second quartile"
@@ -87,24 +86,24 @@
 (defn variance
   "Returns the biased sample variance (n)"
   [coll]
-  (let [mu (avg coll)
+  (let [mu (mean coll)
         n (count coll)]
-    (/ (reduce + 0 (map #(sqr (- % mu)) coll))
+    (/ (reduce + 0 (map #(m/sqr (- % mu)) coll))
        n)))
 
 (defn unbiased-variance
   "Returns the unbiased sample variance (n-1)"
   [coll]
-  (let [mu (avg coll)
+  (let [mu (mean coll)
         n (count coll)]
-    (/ (reduce + 0 (map #(sqr (- % mu)) coll))
+    (/ (reduce + 0 (map #(m/sqr (- % mu)) coll))
        (- n 1))))
 
 (defn covariance
   "Returns the biased sample covariance (n)"
   [coll1 coll2]
-  (let [mu1 (avg coll1)
-        mu2 (avg coll2)
+  (let [mu1 (mean coll1)
+        mu2 (mean coll2)
         n (count coll1)]
     (/ (reduce + 0 (map #(* (- %1 mu1) (- %2 mu2)) coll1 coll2))
        n)))
@@ -112,8 +111,8 @@
 (defn unbiased-covariance
   "Returns the unbiased sample covariance (n-1)"
   [coll1 coll2]
-  (let [mu1 (avg coll1)
-        mu2 (avg coll2)
+  (let [mu1 (mean coll1)
+        mu2 (mean coll2)
         n (count coll1)]
     (/ (reduce + 0 (map #(* (- %1 mu1) (- %2 mu2)) coll1 coll2))
        (- n 1))))
@@ -121,12 +120,12 @@
 (defn deviation
   "Returns the biased sample deviation (n)"
   [coll]
-  (sqrt (variance coll)))
+  (m/sqrt (variance coll)))
 
 (defn unbiased-deviation
   "Returns the unbiased sample deviation (n-1)"
   [coll]
-  (sqrt (unbiased-variance coll)))
+  (m/sqrt (unbiased-variance coll)))
 
 (defn correlation-coefficient
   "Returns the correlation coefficient"
@@ -137,8 +136,8 @@
 (defn linear-regression
   "Returns a vector [a b] of the linear regession coefficients for the equation y = ax + b."
   [coll1 coll2]
-  (let [mu1 (avg coll1)
-        mu2 (avg coll2)
+  (let [mu1 (mean coll1)
+        mu2 (mean coll2)
         a (/ (covariance coll1 coll2) (variance coll1))]
     [a (- mu2 (* a mu1))]))
 
@@ -156,7 +155,7 @@
    (estimated-parameters N n))
   ([N n]
    (let [p (/ n N)]
-     [p (sqrt (/ (* p (- 1 p)) N))])))
+     [p (m/sqrt (/ (* p (- 1 p)) N))])))
 
 (defn a-b-test-statistic
   "Calculates the statistic for the hypothesis, that p-a and p-b are the same, given the outcomes for test a and b."
@@ -164,7 +163,7 @@
   (let [[p-a sigma-a] (estimated-parameters N-a n-a)
         [p-b sigma-b] (estimated-parameters N-b n-b)]
     (/ (- p-b p-a)
-       (sqrt (+ (* sigma-a sigma-a) (* sigma-b sigma-b))))))
+       (m/sqrt (+ (* sigma-a sigma-a) (* sigma-b sigma-b))))))
 
 ;
 ; rescaling of data matrices
@@ -172,27 +171,27 @@
 (defn scale
   "Returns the mean vector and the unbiased standard deviation vector for the colums of the matrix."
   [m]
-  (let [cols (m/column-vectors m)]
-    [(mapv avg cols) (mapv unbiased-deviation cols)]))
+  (let [cols (mm/column-vectors m)]
+    [(mapv mean cols) (mapv unbiased-deviation cols)]))
 
 (defn rescale
   "Rescales the matrix m to have a mean of 0 and an unbiased standard deviation of 1."
   [m]
-  (let [[rows cols] (m/shape m)
+  (let [[rows cols] (mm/shape m)
         [means stdevs] (scale m)]
 
     (defn rescaled [i j]
       (if (> (stdevs j) 0)
-        (/ (- (m/element m i j) (means j))
+        (/ (- (mm/element m i j) (means j))
            (stdevs j))
-        (m/element m i j)))
+        (mm/element m i j)))
 
-    (m/build-matrix rows cols rescaled)))
+    (mm/build-matrix rows cols rescaled)))
 
 (defn de-mean-matrix
   "Returns a matrix with the column mean substacted from each value of input matrix m."
   [m]
-  (let [[rows cols] (m/shape m)
+  (let [[rows cols] (mm/shape m)
         [means _] (scale m)]
-    (m/build-matrix rows cols (fn [i j] (- (m/element i j) (means j))))))
+    (mm/build-matrix rows cols (fn [i j] (- (mm/element i j) (means j))))))
 

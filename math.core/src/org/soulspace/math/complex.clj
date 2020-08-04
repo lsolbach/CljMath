@@ -9,98 +9,132 @@
 ;;
 
 (ns org.soulspace.math.complex
-  (:use [org.soulspace.math math java-math]))
+  "Functions for complex numbers in cartesian or polar representation.
 
-(set! *warn-on-reflection* true)
-(declare complex)
+  Complex numbers are represented as maps with the keys ':real' and ':img'
+  in cartesian representation and ':r' and ':phi' in polar representation."
+  (:require [org.soulspace.math.core :as m]))
 
 ;;
 ;; Complex numbers
 ;;
 
-; TODO: extract functions from records
+(set! *warn-on-reflection* true)
 
-(defprotocol Complex
-  "Protocol for complex numbers in algebraic form."
-  (real [c] "Real part of the complex number.")
-  (img [c] "Imaginary part of the complex number.")
-  (add [c c2] "Addition of complex numbers.")
-  (sub [c c2] "Substraction of complex numbers.")
-  (mult [c c2] "Multiplication of complex numbers.")
-  (div [c c2] "Division of complex numbers.")
-  (sqr-complex [c] "Square of the complex number.")
-  (sqrt-complex [c] "Square root of the complex number.")
-  (abs-complex [c] "Absolute or norm of the complex number.")
-  (conjugate [c] "Conjugate of the complex number.")
-  (to-polar [c] "Polar form of the complex number."))
+;;
+;; Complex constants (in cartesian representation)
+;;
 
-(defprotocol PolarComplex
-  "Protocol for complex numbers in polar format."
-  (r [p] "")
-  (a [p] "")
-  (sqrt-polar [p])
-  (to-complex [p]))
+(def zero "The complex number zero in cartesian representation." {:real 0 :img 0})
+(def one  "The complex number one in cartesian representation."  {:real 1 :img 0})
+(def i    "The complex number i in cartesian representation"     {:real 0 :img 1})
 
-(defrecord DoubleComplexImpl
-  [^double real ^double img]
-  Complex
-  (real [c] (:real c))
-  (img [c] (:img c))
-  (add [c c2] (complex (+ (:real c) (:real c2)) (+ (:img c) (:img c2))))
-  (sub [c c2] (complex (- (:real c) (:real c2)) (- (:img c) (:img c2))))
-  (mult [c c2]
-        (complex (- (* (:real c) (:real c2)) (* (:img c) (:img c2)))
-                 (+ (* (:real c) (:img c2)) (* (:img c) (:real c2)))))
-  (div [c c2]
-       (complex (/ (+ (* (:real c) (:real c2)) (* (:img c) (:img c2)))
-                   (+ (sqr (:real c2)) (sqr (:img c2))))
-                (/ (- (* (:img c) (:real c2)) (* (:real c) (:img c2)))
-                   (+ (sqr (:real c2)) (sqr (:img c2))))))
-  (sqr-complex [c] (mult c c))
-  (sqrt-complex [c]) ; TODO implement sqrt
-  (abs-complex [c] (sqrt (+ (sqr (:real c)) (sqr (:img c)))))
-  (conjugate [c] (complex (:real c) (* -1 (:img c))))
-  (to-polar [c]
-            (cond
-              (and (== (:real c) 0) (== (:img c) 0)) [0 0]
-              (== (:real c) 0) [(:img c) (if (< (:img c) 0) (/ pi 2) (/ (* 3 pi) 2))]
-              (< (:real c) 0) [(sqrt (+ (sqr (:real c)) (sqr (:img c)))) (+ pi (atan (/ (:img c) (:real c))))]
-              :default [(sqrt (+ (sqr (:real c)) (sqr (:img c)))) (atan (/ (:img c) (:real c)))])))
+;;
+;; Conversion of representations
+;;
 
-(defrecord DoublePolarComplexImpl
-  [^double r ^double a]
-  PolarComplex
-  (r [p] (:r p))
-  (a [p] (:a p))
-  (sqrt-polar [p]) ; TODO
-  (to-complex [p]
-              (mult (complex (:r p)) (complex (cos (:a p)) (sin (:a p))))))
+(defn to-polar
+  "Retuns the polar representation of the complex number 'c' given in cartesian representation."
+  [c]
+  (cond
+    (and (== (:real c) 0)
+         (== (:img c) 0)) {:r   0
+                           :phi 0}
+    (== (:real c) 0)      {:r   (:img c)
+                           :phi (if (< (:img c) 0) (/ m/pi 2) (/ (* 3 m/pi) 2))}
+    (< (:real c) 0)       {:r   (m/sqrt (+ (m/sqr (:real c)) (m/sqr (:img c))))
+                           :phi (+ m/pi (m/atan (/ (:img c) (:real c))))}
+    :default              {:r   (m/sqrt (+ (m/sqr (:real c)) (m/sqr (:img c))))
+                           :phi (m/atan (/ (:img c) (:real c)))}))
 
-(defn complex
-  "Creates a complex number from real and imaginary parts."
-  ([r]
-   (DoubleComplexImpl. r 0))
-  ([r i]
-   (DoubleComplexImpl. r i)))
+(defn to-cartesian
+  "Retuns the cartesian representation of the complex number 'p' given in polar representation."
+  [p]
+  {:real (* (:r p) (m/cos (:phi p)))
+   :img  (* (:r p) (m/sin (:phi p)))})
 
-(defn polar-complex
-  "Creates a complex number from polar coordinates."
-  [r a]
-  (DoublePolarComplexImpl. r a))
+;;
+;; Functions for polar representation
+;;
 
-; TODO define and use constants
+(defn mult-polar
+  "Multiplies the complex numbers given in polar representation."
+  [p1 p2]
+  {:r (* (:r p1) (:r p2))
+   :phi (+ (:phi p1) (:phi p2))})
 
-(defn zero
-  "Returns the complex number zero."
-  []
-  (complex 0 0))
+(defn div-polar
+  "Divides the complex numbers given in polar representation."
+  [p1 p2]
+  {:r (/ (:r p1) (:r p2))
+   :phi (- (:phi p1) (:phi p2))})
 
-(defn one
-  "Returns the complex number one."
-  []
-  (complex 1 0))
+(defn sqrt-polar
+  "Calculates the principal square root of the complex number 'p' given in polar representation."
+  [p]
+  (let [sqrt-r (m/sqrt (:r p))]
+    {:r   (* sqrt-r (m/cos (/ (:phi p) 2)))
+     :phi (* sqrt-r (m/sin (/ (:phi p) 2)))}))
 
-(defn i
-  "Returns the complex number i"
-  []
-  (complex 0 1))
+;;
+;; Functions for cartesian representation
+;;
+
+(defn add
+  "Adds two complex numbers 'c1' and 'c2' given in cartesian representation."
+  [c1 c2]
+  {:real (+ (:real c1) (:real c2))
+   :img  (+ (:img c1) (:img c2))})
+
+(defn substract
+  "Substracts two complex numbers 'c1' and 'c2' given in cartesian representation'."
+  [c1 c2]
+  {:real (- (:real c1) (:real c2))
+   :img  (- (:img c1) (:img c2))})
+
+(defn multiply
+  "Multiplies two complex numbers 'c1' and 'c2' given in cartesian representation."
+  [c1 c2]
+  {:real (- (* (:real c1) (:real c2)) (* (:img c1) (:img c2)))
+   :img  (+ (* (:real c1) (:img c2)) (* (:img c1) (:real c2)))})
+
+(defn divide
+  "Multiplies two complex numbers 'c1' and 'c2' given in cartesian representation."
+  [c1 c2]
+  {:real (/ (+ (* (:real c1) (:real c2)) (* (:img c1) (:img c2)))
+            (+ (m/sqr (:real c2)) (m/sqr (:img c2))))
+   :img  (/ (- (* (:img c1) (:real c2)) (* (:real c1) (:img c2)))
+            (+ (m/sqr (:real c2)) (m/sqr (:img c2))))})
+
+(defn scalar-product
+  "Calculates the scalar product of the complex number 'c' with the real number 'x'"
+  [c x]
+  {:real (* x (:real c))
+   :img  (* x (:img c))})
+
+(defn sqr
+  "Calculates the square of the complex number 'c' given in cartesian repmresentation."
+  [c]
+  (multiply c c))
+
+(defn sqrt
+  "Calculates the principal square root of the complex number 'c' given in cartesian representation."
+  [c]
+  (to-cartesian (sqrt-polar (to-polar c))))
+
+(defn norm
+  "Calculates the norm or absolute value of the complex number 'c' given in cartesian representation."
+  [c]
+  (m/sqrt (+ (m/sqr (:real c)) (m/sqr (:img c)))))
+
+(defn conjugate
+  "Calculates the conjugate of the complex number 'c' given in cartesian representation."
+  [c]
+  {:real (:real c)
+   :img  (* -1 (:img c))})
+
+(defn inverse
+  "Calculates the conjugate of the complex number 'c' given in cartesian representation.
+  If c is zero, an exception is thrown."
+  [c]
+  (scalar-product (conjugate c) (/ 1 (norm c))))

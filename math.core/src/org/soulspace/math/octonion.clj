@@ -8,32 +8,95 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.math.octonion)
+(ns org.soulspace.math.octonion
+  (:require [org.soulspace.math.core :as m]
+            [org.soulspace.math.quaternion :as mq]))
 
 ;;
 ;; Octonions, hyper complex numbers of the 8th dimension
 ;;
+;; (see Octonion on wikipedia.org)
+;;
 
 (set! *warn-on-reflection* true)
-(declare octonion)
 
-(defprotocol Octonion
-  "Protocol for octonions, hyper complex numbers of the 8th dimension."
-  (add [q1 q2] "Returns the addition of the octonions o1 and o2.")
-  (conjugate [q] "Returns the conjugate o* of o."))
+(defn add
+  "Calculates the addition of the octonion numbers 'o1' and 'o2'."
+  [o1 o2]
+  {:r (+ (:r o1) (:r o2))
+   :i (+ (:i o1) (:i o2))
+   :j (+ (:j o1) (:j o2))
+   :k (+ (:k o1) (:k o2))
+   :l (+ (:e o1) (:e o2))
+   :m (+ (:m o1) (:m o2))
+   :n (+ (:n o1) (:n o2))
+   :o (+ (:o o1) (:o o2))})
 
+(defn substract
+  "Calculates the substraction of the octonion numbers 'o1' with 'o2'."
+  [o1 o2]
+  {:r (- (:r o1) (:r o2))
+   :i (- (:i o1) (:i o2))
+   :j (- (:j o1) (:j o2))
+   :k (- (:k o1) (:k o2))
+   :l (- (:e o1) (:e o2))
+   :m (- (:m o1) (:m o2))
+   :n (- (:n o1) (:n o2))
+   :o (- (:o o1) (:o o2))})
 
-(defrecord OctonionImpl
-  [a b c d e f g h]
-  Octonion
-  (add [q1 q2]
-    (octonion (+ (:a o1) (:a o2)) (+ (:b o1) (:b o2)) (+ (:c o1) (:c o2)) (+ (:d o1) (:d o2))
-              (+ (:e o1) (:e o2)) (+ (:f o1) (:f o2)) (+ (:g o1) (:g o2)) (+ (:h o1) (:h o2))))
-  (conjugate [o]
-    (octonion (:a o) (* -1 (:b o)) (* -1 (:c o)) (* -1 (:d o)) (* -1 (:e o)) (* -1 (:f o)) (* -1 (:g o)) (* -1 (:h o)))))
+(defn multiply
+  "Calculates the multiplication of the octonion numbers 'o1' with 'o2'
+  via the Cayley–Dickson construction."
+  [o1 o2]
+  (let [a {:r (:r o1) :i (:i o1) :j (:j o1) :k (:k o1)}
+        b {:r (:l o1) :i (:m o1) :j (:n o1) :k (:o o1)}
+        c {:r (:r o2) :i (:i o2) :j (:j o2) :k (:k o2)}
+        d {:r (:l o2) :i (:m o2) :j (:n o2) :k (:o o2)}
+        q1 (mq/substract (mq/multiply a c)
+                         (mq/multiply (mq/conjugate d) b))
+        q2 (mq/add (mq/multiply d a)
+                   (mq/multiply b (mq/conjugate c)))]
+    {:r (:r q1)
+     :i (:i q1)
+     :j (:j q1)
+     :k (:k q1)
+     :l (:r q2)
+     :m (:i q2)
+     :n (:j q2)
+     :o (:k q2)}))
 
+(defn scalar-product
+  "Calculates the scalar product of the octonion 'o' with the real number 'x'"
+  [o x]
+  {:r (* x (:r o))
+   :i (* x (:i o))
+   :j (* x (:j o))
+   :k (* x (:k o))
+   :l (* x (:l o))
+   :m (* x (:m o))
+   :n (* x (:n o))
+   :o (* x (:o o))})
 
-(defn octonion
-  "Creates a new octonion from the real numbers a, b, c, d, e, f, g and h."
-  [a b c d e f g h]
-  (OctonionImpl. a b c d e f g h))
+(defn conjugate
+  "Calculates the conjugate o* of the octonion number 'o'."
+  [o]
+  {:r (:r o)
+   :i (* -1 (:i o))
+   :j (* -1 (:j o))
+   :k (* -1 (:k o))
+   :l (* -1 (:l o))
+   :m (* -1 (:m o))
+   :n (* -1 (:n o))
+   :o (* -1 (:o o))})
+
+(defn norm
+  "Calculates the norm ||o|| of the octonion number 'o'."
+  [o]
+  (m/sqrt (+ (m/sqr (:r o)) (m/sqr (:i o)) (m/sqr (:j o)) (m/sqr (:k o))
+             (m/sqr (:l o)) (m/sqr (:m o)) (m/sqr (:n o)) (m/sqr (:o o)))))
+
+(defn inverse
+  "Calculates the inverse of the octonian number 'o'."
+  [o]
+  (scalar-product (conjugate o) (/ 1 (m/sqr (norm o)))))
+

@@ -9,10 +9,9 @@
 ;;
 
 (ns org.soulspace.math.gradient
-  (:require [org.soulspace.math.matrix :as m]
-            [org.soulspace.math.vector :as v]
-            [org.soulspace.math.math :refer [sqr]]
-            [org.soulspace.math.java-math :refer [abs pow sqrt cbrt ceil]]))
+  (:require [org.soulspace.math.core :as m]
+            [org.soulspace.math.matrix :as mm]
+            [org.soulspace.math.vector :as mv]))
 
 ;;
 ;; Functions for gradients and gradient descent
@@ -75,7 +74,7 @@
 (defn minimize-batch
   "Calculates ."
   ([target-fn gradient-fn theta-0]
-   (minimize-batch target-fn gradient-fn theta-0 default-epsilon))
+   (minimize-batch target-fn gradient-fn theta-0 m/default-epsilon))
   ([target-fn gradient-fn theta-0 tolerance]
    (let [target-fn (safe-fn target-fn)]
      (loop [theta theta-0
@@ -84,14 +83,14 @@
              next-thetas (map #(step theta gradient (* -1 %)) step-sizes)
              next-theta (apply min-key target-fn next-thetas)
              next-value (target-fn next-theta)]
-         (if (< (abs (- value next-value)) tolerance)
+         (if (< (m/abs (- value next-value)) tolerance)
            theta
            (recur next-theta next-value)))))))
 
 (defn maximize-batch
   "Calculates the theta that minimizes the target function by gradient descent."
   ([target-fn gradient-fn theta-0]
-   (maximize-batch target-fn gradient-fn theta-0 default-epsilon))
+   (maximize-batch target-fn gradient-fn theta-0 m/default-epsilon))
   ([target-fn gradient-fn theta-0 tolerance]
    (minimize-batch (negated-fn target-fn) (negated-all-fn gradient-fn) theta-0 tolerance)))
 
@@ -124,7 +123,7 @@
   (loop [v start-v]
     (let [gradient (sum-of-squares-gradient v)
           next-v (step v gradient -0.01)]
-      (if (< (v/distance next-v v) 0.0000001)
+      (if (< (mv/distance next-v v) 0.0000001)
         v
         (recur next-v)))))
 
@@ -133,12 +132,12 @@
 ;
 (def direction
   "Returns the direction of the vector w (which is w normalized to length 1)"
-  v/normalize)
+  mv/normalize)
 
 (defn directional-variance-i
   "Calculates the variance of the row x-i in the direction of w."
   [x-i w]
-  (sqr (v/dot-product x-i (direction w))))
+  (m/sqr (mv/dot-product x-i (direction w))))
 
 (defn directional-variance
   "Calculates the variance of the matrix m in the direction of w."
@@ -148,10 +147,10 @@
 (defn directional-variance-gradient-i
   "Calculates the contribution of row x-i to the gradient of the variance in direction w."
   [x-i w]
-  (let [projection-length (v/dot-product x-i (direction w))]
+  (let [projection-length (mv/dot-product x-i (direction w))]
     (mapv #(* 2 projection-length %) x-i)))
 
 (defn directional-variance-gradient
   "Calculates the contribution of the matrix m to the gradient of the variance in direction w."
   [m w]
-  (mapv #(v/vector-sum (directional-variance-gradient-i % w)) m))
+  (mapv #(mv/add (directional-variance-gradient-i % w)) m))

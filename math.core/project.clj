@@ -3,5 +3,12 @@
   :url "https://github.com/lsolbach/CljMath"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.10.1"]]
+
+  ; use deps.edn dependencies
+  :plugins [[lein-tools-deps "0.4.5"]]
+  :middleware [lein-tools-deps.plugin/resolve-dependencies-with-deps-edn]
+  :lein-tools-deps/config {:config-files [:install :user :project]}
+
+;  :dependencies [[org.clojure/clojure "1.10.1"]]
+
   :test-paths ["test"])

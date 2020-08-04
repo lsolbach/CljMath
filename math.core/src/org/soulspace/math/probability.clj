@@ -9,7 +9,8 @@
 ;;
 
 (ns org.soulspace.math.probability
-  (:use [org.soulspace.math math java-math]))
+  (:require [org.soulspace.math.core :as m]
+            [org.soulspace.math.methods :as mm]))
 
 ;;
 ;; Probability functions
@@ -33,7 +34,7 @@
 (defn binomial-approximation-by-normal
   "Approximates mu and sigma corresponding to a binomial(n, p) variable."
   [n p]
-  [(* p n) (sqrt (* p (- 1 p) n))])
+  [(* p n) (m/sqrt (* p (- 1 p) n))])
 
 (defn uniform-pdf
   "Calculates the probability density function for the uniform distribution."
@@ -57,9 +58,9 @@
   ([x [mu sigma]]
    (normal-pdf x mu sigma))
   ([x mu sigma]
-   (/ (exp (* -1 (/ (sqr (- x mu))
+   (/ (m/exp (* -1 (/ (m/sqr (- x mu))
                     (* 2 sigma sigma))))
-      (sqrt (* 2 pi)))))
+      (m/sqrt (* 2 m/pi)))))
 
 (defn normal-cdf
   "Calculates the cumulative distribution function for the normal distribution."
@@ -68,14 +69,14 @@
   ([x [mu sigma]]
    (normal-cdf x mu sigma))
   ([x mu sigma]
-   (/ (+ 1 (erf (/ (- x mu)
-                   (* (sqrt 2) sigma))))
+   (/ (+ 1 (m/erf (/ (- x mu)
+                   (* (m/sqrt 2) sigma))))
       2)))
 
 (defn inverse-normal-cdf-with-tolerance
   "Calculates the inverse of the cumulative distribution function for the normal distribution. Approximates the value with binary search."
   ([p e]
-   (search-value normal-cdf p -10.0 10.0 e))
+   (mm/search-value normal-cdf p -10.0 10.0 e))
   ([p mu sigma e]
    (+ mu (* sigma (inverse-normal-cdf-with-tolerance p e)))))
 

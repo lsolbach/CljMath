@@ -9,14 +9,13 @@
 ;;
 
 (ns org.soulspace.math.vector
-  (:use [org.soulspace.math java-math]))
+  (:require [org.soulspace.math.core :as m]))
 
 ;;
 ;; Vector functions
 ;;
 
-(def dimension
-  "Returns the dimension of the vector v."
+(def dimension "Returns the dimension of the vector v."
   count)
 
 (defn scalar-add
@@ -24,36 +23,41 @@
   [s v]
   (mapv #(+ % s) v))
 
-(defn scalar-multiply
+(defn scalar-product
   "Multiplies a scalar s to the vector v."
   [s v]
   (mapv #(* % s) v))
 
-(defn vector-add
+(defn add
   "Adds the vectors v and w."
-  [v w]
-  (if (= (dimension v) (dimension w))
-    (mapv + v w)
-    (throw (IllegalArgumentException. "The vectors are not of the same dimension."))))
+  ([v] v)
+  ([v w]
+    (if (= (dimension v) (dimension w))
+      (mapv + v w)
+      (throw (IllegalArgumentException. "The vectors are not of the same dimension."))))
+  ([v w & vs]
+    (reduce add (conj (conj vs w) v ))))
 
-(defn vector-substract
+(defn substract
   "Substracts the vectors v and w."
   [v w]
   (if (= (dimension v) (dimension w))
     (mapv - v w)
     (throw (IllegalArgumentException. "The Vectors are not of the same dimension."))))
 
-(defn vector-sum
-  "Adds the vectors."
+(defn sum
+  "Adds the given vectors."
   [& vs]
-  (reduce vector-add vs))
+  (reduce add vs))
 
 (defn dot-product
-  "Returns the dot product of the vectors v and w."
+  "Calculates the dot product of the vectors v and w."
   [v w]
   (if (= (dimension v) (dimension w))
     (reduce + (map * v w))
     (throw (IllegalArgumentException. "The Vectors are not of the same dimension."))))
+
+;(def multiply cross-product)
 
 (defn sum-of-squares
   "Returns the sum of the squares of the elements of v."
@@ -63,19 +67,17 @@
 (defn magnitude
   "Returns the magnitude of the vector v."
   [v]
-  (sqrt (sum-of-squares v)))
+  (m/sqrt (sum-of-squares v)))
 
 (defn distance
   "Returns the distance of the vectors v and w."
   [v w]
-  (magnitude (vector-substract v w)))
+  (magnitude (substract v w)))
 
 (defn normalize
   "Returns a vector with a length of 1 in the direction of v."
   [v]
-  (scalar-multiply (/ 1 (magnitude v)) v))
-
-
+  (scalar-product (/ 1 (magnitude v)) v))
 
 (comment
   (defn cross-product
@@ -83,19 +85,4 @@
     (if (= (dimension a) (dimension b))
       nil ; TODO calculate cross product
       (throw (IllegalArgumentException. "The Vectors are not of the same dimension."))))
-
-  (defprotocol Vector
-    "Protocol for vectors."
-    (scalar-add [v s])
-    (scalar-product [v s])
-    (vector-add [v v2])
-    (vector-product [v v2]))
-
-
-  (defrecord VecVectorImpl
-    [elements]
-    Vector
-    (scalar-add [v s])
-    (scalar-product [v s])
-    (vector-add [v v2])
-    (vector-product [v v2])))
+)
