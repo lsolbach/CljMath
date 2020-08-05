@@ -8,30 +8,30 @@
 ;;   You must not remove this notice, or any other, from this software.
 ;;
 
-(ns org.soulspace.math.finance
-  (:require [org.soulspace.math.math :refer :all]
-            [org.soulspace.math.java-math :refer :all]))
+(ns org.soulspace.math.interest
+  (:require [org.soulspace.math.core :as m]))
 
-; german-english translations
-; Rente, Annuität = annuity
-; Kredit = credit, loan
-; Tilgung = redemption
-; Barwert = cash value
+;;; german-english translations
+;; Rente, Annuität = annuity
+;; Kredit = credit, loan
+;; Tilgung = redemption
+;; Barwert = cash value
 
-; var names
-; k0 := credit sum
-; km :=  remaining credit sum
-; a := annuity / redemption
-; i := interest
-; q := interest factor (1 + decimal interest)
-; n := term
-; r := rate
+;;; var names
+;; k0 := credit sum
+;; kn := cash value
+;; km := remaining credit sum
+;; a := annuity / redemption
+;; i := interest
+;; q := interest factor (1 + decimal interest)
+;; n := term
+;; r := rate
 
 (defn round-financial
   "Returns the value rounded financially according to the given precision"
   [precision x]
   (if (and (float? x) (> precision 0))
-    (* (sign x) (/ (floor (+ (* (abs x) (pow 10 precision)) 0.5)) (pow 10 precision)))
+    (* (m/sign x) (/ (m/floor (+ (* (m/abs x) (m/pow 10 precision)) 0.5)) (m/pow 10 precision)))
     x))
 
 (defn percent
@@ -44,25 +44,25 @@
   [x]
   (* x 100))
 
-(defn accumulate-by-percentage
+(defn accumulate-by-interest
   ""
   [k0 i]
   (* k0 (1 + i)))
 
-(defn discount-by-percentage
-  ""
+(defn discount-by-interest
+  "Calculates the discounted value of 'kn'."
   [kn i]
   (* kn (1 - i)))
 
 (defn cash-value
   "Calculates the cash value of a value 'kn' with interest 'q' before 'n' periods."
   [kn q n]
-  (* kn (/ 1 (pow q n))))
+  (* kn (/ 1 (m/pow q n))))
 
 (defn accumulated-value
   "Calculates the accumulated value of a base value 'k0' with interest 'q' after 'n' periods."
   [k0 q n]
-  (* k0 (pow q n)))
+  (* k0 (m/pow q n)))
 
 ;(defn annuity-accumulated-value)
 ;(defn annuity-cash-value)
@@ -71,21 +71,21 @@
   ""
   [r q m]
   (* r
-    (/ (- (pow q m) 1) (- q 1))))
+    (/ (- (m/pow q m) 1) (- q 1))))
 
 (defn discounted-rates
   ""
   [r q m]
   (* r
-    (/ (- (pow q m) 1) (- q 1))
-    (/ 1 (pow q m))))
+    (/ (- (m/pow q m) 1) (- q 1))
+    (/ 1 (m/pow q m))))
 
 (defn annuity-factor
   "Calculates the annuity factor for interest 'q' and 'n' periods."
   [q n]
   (/
-    (* (pow q n) (- q 1))
-    (- (pow q n) 1)))
+    (* (m/pow q n) (- q 1))
+    (- (m/pow q n) 1)))
 
 (defn annuity-rent-Rn
   ""
@@ -108,8 +108,8 @@
   ""
   [k0 a q]
   (/
-    (log (/ a (- a (* k0 (- q 1)))))
-    (log q)))
+    (m/log (/ a (- a (* k0 (- q 1)))))
+    (m/log q)))
 
 (defn annuity-rate-by-interest
   ""
@@ -120,8 +120,8 @@
   ""
   [i it]
   (/
-    (log (+ 1 (/ i it)))
-    (log (+ 1 i))))
+    (m/log (+ 1 (/ i it)))
+    (m/log (+ 1 i))))
 
 (defn annuity-redemption-plan
   ""

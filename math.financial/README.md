@@ -2,6 +2,12 @@ math.financial
 ==============
 The math.financial library contains financial math functions in Clojure.
 
+Usage
+-----
+Leiningen dependency
+
+[org.soulspace.clj/math.financial "0.6.0"]
+
 Copyright
 ---------
 © 2011-2020 Ludger Solbach
@@ -12,6 +18,6 @@ License
 
 Code Repository
 ---------------
-[CljMath on GitHub] (https://github.com/lsolbach/CljMath)
+[CljMath on GitHub](https://github.com/lsolbach/CljMath)
 
 
