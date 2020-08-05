@@ -39,17 +39,17 @@
   (is (= (reduce add (one) [(one) (one)]) (complex 3 0))))
 
 (deftest mult-test
-  (is (= (mult (one) (one)) (one)))
-  (is (= (mult (zero) (one)) (zero)))
-  (is (= (mult (one) (zero)) (zero)))
-  (is (= (mult (one) (i)) (i)))
-  (is (= (mult (i) (one)) (i))))
+  (is (= (multiply (one) (one)) (one)))
+  (is (= (multiply (zero) (one)) (zero)))
+  (is (= (multiply (one) (zero)) (zero)))
+  (is (= (multiply (one) (i)) (i)))
+  (is (= (multiply (i) (one)) (i))))
 
 (deftest sub-test
-  (is (= (sub (zero) (zero)) (zero))))
+  (is (= (substract (zero) (zero)) (zero))))
 
 (deftest div-test
-  (is (= (div (one) (one)) (one))))
+  (is (= (divide (one) (one)) (one))))
 
 (deftest conjugate-test
   (is (= (conjugate (complex 1 3)) (complex 1 -3)))

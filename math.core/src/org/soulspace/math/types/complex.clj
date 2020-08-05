@@ -36,7 +36,7 @@
 (defprotocol IPolarComplex
   "Protocol for complex numbers in polar form."
   (sqrt-polar [p])
-  (to-complex [p]))
+  (to-cartesian [p]))
 
 
 (defrecord Complex
@@ -68,14 +68,14 @@
   IPolarComplex
   (sqrt-polar [this]
     (polar (mc/sqrt-polar this)))
-  (to-complex [p]
-    (complex (mc/to-complex p))))
+  (to-cartesian [p]
+    (complex (mc/to-cartesian p))))
 
 
 (defn complex
   "Creates a complex number from real and imaginary parts."
   ([m]
-   (map->Complex r 0))
+   (map->Complex m))
   ([r i]
    (->Complex r i)))
 
