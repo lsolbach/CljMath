@@ -8,14 +8,15 @@
 ;   You must not remove this notice, or any other, from this software.
 ;
 (ns org.soulspace.math.test.statistics
-  (:use [clojure.test]
-        [org.soulspace.math math java-math statistics]))
+  (:require [clojure.test :refer :all]
+            [org.soulspace.math.core :as m]
+            [org.soulspace.math.statistics :refer :all]))
 
-(deftest avg-test
-  (is (== (avg [3 3 3 3 3]) 3))
-  (is (== (avg [1 2 3 4 5]) 3))
-  (is (== (avg [1 2 3 4]) 2.5))
-  (is (== (avg [2 4 8 16]) 7.5)))
+(deftest mean-test
+  (is (== (mean [3 3 3 3 3]) 3))
+  (is (== (mean [1 2 3 4 5]) 3))
+  (is (== (mean [1 2 3 4]) 2.5))
+  (is (== (mean [2 4 8 16]) 7.5)))
 
 (deftest median-test
   (is (== (median [3 3 3 3 3]) 3))
@@ -31,9 +32,9 @@
 
 (deftest deviation-test
   (is (== (deviation [3 3 3 3 3]) 0))
-  (is (== (deviation [1 2 3 4 5]) (sqrt 2)))
-  (is (== (deviation [1 2 3 4]) (sqrt 1.25)))
-  (is (== (deviation [2 4 8 16]) (sqrt 115/4))))
+  (is (== (deviation [1 2 3 4 5]) (m/sqrt 2)))
+  (is (== (deviation [1 2 3 4]) (m/sqrt 1.25)))
+  (is (== (deviation [2 4 8 16]) (m/sqrt 115/4))))
 
 (deftest covariance-test
   (is (= (covariance [1 2 3 4] [1 2 3 4]) 5/4)))
