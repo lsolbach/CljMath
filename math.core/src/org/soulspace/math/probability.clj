@@ -19,6 +19,8 @@
 ;;   Grus, Joel; Data Science from Scratch; O'Reilly
 ;;
 
+(set! *warn-on-reflection* true)
+
 (defn bernoulli
   "Calculates the bernulli(p) random variable. Returns 1 with a probability of p and 0 with a probability of (1 - p)."
   [p]

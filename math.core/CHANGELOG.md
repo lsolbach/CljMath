@@ -13,6 +13,8 @@ Version 0.7.0
 * implemented missing functions for octonion numbers
 * refactored and enhanced protocols and records for complex numbers
 * refactored and enhanced protocols and records for quaternions and octonions
+* implemented cross-product and angle for vectors
+
 
 Version 0.6.0
 -------------

@@ -16,6 +16,8 @@
 ;; Protocols and Implementations for Vectors
 ;;
 
+(set! *warn-on-reflection* true)
+
 (declare vector)
 
 (defprotocol IVector
@@ -24,8 +26,7 @@
   (scalar-product [this x] "Calculates the scalar product of 'this' octonion with the scalar 'x'.")
   (add [this v2] "Adds the vector 'v2' to 'this' vector.")
   (substract [this v2] "Substracts the vector 'v2' from 'this' vector.")
-  (multiply [this v2] "Multiplies the vector 'v2' with 'this' vector.")
-  (divide [this v2] "Divides 'this' vector by the vector 'v2'.")
+  (dot-product [this v2] "Calculates the dot product of 'this' vector with vector'v2'.")
   (norm [this] "Calculates the norm or magnitude of 'this' vector.")
   (distance [this m2] "Calculates the distance of 'this' vector and the vector 'm2'."))
 
@@ -40,8 +41,12 @@
     (vector (mv/add (:elements this) (:elements v2))))
   (substract [this v2]
     (vector (mv/substract (:elements this) (:elements v2))))
-  (multiply [this v2]
-    (vector (mv/multiply (:elements this) (:elements v2)))))
+  (dot-product [this v2]
+    (mv/dot-product (:elements this) (:elements v2)))
+  (norm [this]
+    (mv/norm this))
+  (distance [this m2]
+    (mv/distance this m2)))
 
 (defn vector
   "Creates a new vector instance from the elements 'e'."

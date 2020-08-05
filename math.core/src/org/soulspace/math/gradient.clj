@@ -17,6 +17,8 @@
 ;; Functions for gradients and gradient descent
 ;;
 
+(set! *warn-on-reflection* true)
+
 (def step-sizes [100 10 1 0.1 0.01 0.001 0.0001 0.00001])
 
 (defn safe-apply

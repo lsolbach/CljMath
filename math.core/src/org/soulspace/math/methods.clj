@@ -15,6 +15,8 @@
 ;; Mathemathical algorithms and methods
 ;;
 
+(set! *warn-on-reflection* true)
+
 ;;
 ;; Number Theory
 ;;

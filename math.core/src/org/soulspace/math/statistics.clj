@@ -17,6 +17,8 @@
 ;; Statistics functions
 ;;
 
+(set! *warn-on-reflection* true)
+
 ; same as avg
 ;(defn geometric-average
 ;  "Returns the geometric average"

@@ -14,6 +14,8 @@
 ;; Matrix functions
 ;;
 
+(set! *warn-on-reflection* true)
+
 (defn rows
   "Returns the number of rows of the matrix m."
   [m]

@@ -19,7 +19,7 @@
 ;;   Abelson, Sussman and Sussman; 'Structure and Interpretation of Computer Programs';
 ;;
 
-;(set! *warn-on-reflection* true)
+(set! *warn-on-reflection* true)
 
 (def default-epsilon "Default tolerance (epsilon)." 0.00001)
 (def default-dx "Default step size (delta x)." 0.0000001)

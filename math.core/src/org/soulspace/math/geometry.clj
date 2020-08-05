@@ -11,6 +11,13 @@
 (ns org.soulspace.math.geometry
   (:require [org.soulspace.math.core :as m]))
 
+;;
+;; Geometric functions
+;;
+
+(set! *warn-on-reflection* true)
+
+
 (defn circle-circumference
   "Calculates the circumference of the circle with radius r."
   [r]

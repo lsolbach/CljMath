@@ -15,6 +15,9 @@
 ;; Vector functions
 ;;
 
+(set! *warn-on-reflection* true)
+
+
 (def dimension "Returns the dimension of the vector v."
   count)
 
@@ -57,7 +60,14 @@
     (reduce + (map * v w))
     (throw (IllegalArgumentException. "The Vectors are not of the same dimension."))))
 
-;(def multiply cross-product)
+(defn cross-product
+  "Calculates the cross product for 2 vectors 'v' and 'w' of dimension 3."
+  [v w]
+  (if (= 3 (dimension v) (dimension w))
+    [(- (* (nth v 1) (nth w 2)) (* (nth v 2) (nth w 1)))
+     (- (* (nth v 2) (nth w 0)) (* (nth v 0) (nth w 2)))
+     (- (* (nth v 0) (nth w 1)) (* (nth v 1) (nth w 0)))] 
+    (throw (IllegalArgumentException. "The vectors are not of the dimension 3."))))
 
 (defn sum-of-squares
   "Returns the sum of the squares of the elements of v."
@@ -65,9 +75,11 @@
   (dot-product v v))
 
 (defn magnitude
-  "Returns the magnitude of the vector v."
+  "Calculates the norm or magnitude ||v|| of the vector 'v'."
   [v]
   (m/sqrt (sum-of-squares v)))
+
+(def norm "Calculates the norm or magnitude ||v|| of the vector 'v'." magnitude)
 
 (defn distance
   "Returns the distance of the vectors v and w."
@@ -79,10 +91,10 @@
   [v]
   (scalar-product (/ 1 (magnitude v)) v))
 
+(defn angle
+  "Calculates the cross product for 2 vectors 'v' and 'w' of dimension 3."
+  [v w]
+  (m/acos (/ (dot-product v w) (* (norm v) (norm w)))))
+
 (comment
-  (defn cross-product
-    [a b]
-    (if (= (dimension a) (dimension b))
-      nil ; TODO calculate cross product
-      (throw (IllegalArgumentException. "The Vectors are not of the same dimension."))))
 )
