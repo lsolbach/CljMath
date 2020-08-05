@@ -24,6 +24,6 @@
 (deftest arithmetics-test
   (are [x y] (= x y)
        {:real 8 :img 7} (add {:real 3 :img 2} {:real 5 :img 5})
-       {:real 2 :img 3} (sub {:real 5 :img 5} {:real 3 :img 2})
-       {:real -43 :img 53} (mult {:real 3 :img 5} {:real 4 :img 11})
-       {:real 41/58 :img 1/58} (div {:real 2 :img 5} {:real 3 :img 7})))
+       {:real 2 :img 3} (substract {:real 5 :img 5} {:real 3 :img 2})
+       {:real -43 :img 53} (multiply {:real 3 :img 5} {:real 4 :img 11})
+       {:real 41/58 :img 1/58} (divide {:real 2 :img 5} {:real 3 :img 7})))
