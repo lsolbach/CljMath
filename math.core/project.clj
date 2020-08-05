@@ -11,4 +11,5 @@
 
 ;  :dependencies [[org.clojure/clojure "1.10.1"]]
 
-  :test-paths ["test"])
+  :test-paths ["test"]
+  :deploy-repositories [["clojars" {:sign-releases false :url "https://clojars.org/repo"}]])

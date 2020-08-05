@@ -12,4 +12,5 @@
 ;  :dependencies [[org.clojure/clojure "1.10.1"]
 ;                 [org.soulspace.clj/math.core "0.7.0"]]
 
-  :test-paths ["test"])
+  :test-paths ["test"]
+  :deploy-repositories [["clojars" {:sign-releases false :url "https://clojars.org/repo"}]])
