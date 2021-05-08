@@ -13,7 +13,7 @@ Usage
 Leiningen dependency:
 
 ```
-[org.soulspace.clj/math.core "0.7.0"]
+[org.soulspace.clj/math.core "0.7.1"]
 ```
 
 Copyright

@@ -1,4 +1,4 @@
-(defproject org.soulspace.clj/math.core "0.7.0"
+(defproject org.soulspace.clj/math.core "0.7.1"
   :description "The math.core library contains core mathematical functions and algorithms."
   :url "https://github.com/lsolbach/CljMath"
   :license {:name "Eclipse Public License"

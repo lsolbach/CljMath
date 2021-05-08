@@ -79,7 +79,7 @@
   [s m]
   (mapv (partial mapv (partial + s)) m))
 
-(defn scalar-multiply
+(defn scalar-product
   "Multiplies the scalar s to the matrix m."
   [s m]
   (mapv (partial mapv (partial * s)) m))
@@ -104,7 +104,13 @@
   (reduce matrix-add ms))
 
 (defn matrix-product
-  [m n])
+  [m n]
+  (if (= (columns m) (rows n))
+    (vec (for [i (range (rows m))]
+           (vec (for [k (range (columns n))]
+                  (apply + (for [j (range (columns m))]
+                             (* (element m i j) (element n j k))))))))
+    (throw (IllegalArgumentException. "The matrices are of incompatible shapes."))))
 
 
 ; TODO check if this should be compliant to an L-R Zerlegung

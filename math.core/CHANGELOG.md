@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+
+Version 0.7.1
+-------------
+* implemented matrix-product, renamed scalar-multiply to scalar-product
+
 Version 0.7.0
 -------------
 * integrated math.base, math.complex, math.quarternion and math.octonion
