@@ -4,3 +4,9 @@
 target
 pom.xml
 .lein-failures
+
+# VS Code Calva
+.calva
+.clj-kondo
+.cpcache
+.lsp
