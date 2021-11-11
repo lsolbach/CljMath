@@ -8,13 +8,8 @@ It contains implementations of complex, quaternion and octonion numbers, too.
 
 Usage
 -----
+### Dependency
 [![Clojars Project](https://img.shields.io/clojars/v/org.soulspace.clj/math.core.svg)](https://clojars.org/org.soulspace.clj/math.core)
-
-Leiningen dependency:
-
-```
-[org.soulspace.clj/math.core "0.7.1"]
-```
 
 Copyright
 ---------
