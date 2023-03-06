@@ -1,7 +1,6 @@
 math.financial
 ==============
-The math.financial library contains financial math functions in Clojure.
-
+The math.financial library contains financial math functions for Clojure and Clojurescript.
 
 Usage
 -----
@@ -10,7 +9,7 @@ Usage
 
 Copyright
 ---------
-© 2011-2020 Ludger Solbach
+© 2011-2022 Ludger Solbach
 
 License
 -------
