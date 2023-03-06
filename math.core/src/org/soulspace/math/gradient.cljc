@@ -1,24 +1,25 @@
-;;
-;;   Copyright (c) Ludger Solbach. All rights reserved.
-;;   The use and distribution terms for this software are covered by the
-;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
-;;   which can be found in the file license.txt at the root of this distribution.
-;;   By using this software in any fashion, you are agreeing to be bound by
-;;   the terms of this license.
-;;   You must not remove this notice, or any other, from this software.
-;;
-
+;;;;
+;;;;   Copyright (c) Ludger Solbach. All rights reserved.
+;;;;
+;;;;   The use and distribution terms for this software are covered by the
+;;;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+;;;;   which can be found in the file license.txt at the root of this distribution.
+;;;;   By using this software in any fashion, you are agreeing to be bound by
+;;;;   the terms of this license.
+;;;;
+;;;;   You must not remove this notice, or any other, from this software.
+;;;;
 (ns org.soulspace.math.gradient
   (:require [org.soulspace.math.core :as m]
             [org.soulspace.math.matrix :as mm]
             [org.soulspace.math.vector :as mv]))
 
+#?(:clj
+   (set! *warn-on-reflection* true))
+
 ;;
 ;; Functions for gradients and gradient descent
 ;;
-
-(set! *warn-on-reflection* true)
-
 (def step-sizes [100 10 1 0.1 0.01 0.001 0.0001 0.00001])
 
 (defn safe-apply
@@ -26,8 +27,13 @@
   [f & args]
   (try
     (apply f args)
-    (catch Exception e
-      Double/POSITIVE_INFINITY)))
+    #?(:clj
+       (catch Exception e
+         Double/POSITIVE_INFINITY))
+    #?(:cljs
+       (catch js/Error e
+        Double/POSITIVE_INFINITY))
+    ))
 
 (defn safe-fn
   "Returns a function that is the same as f except that it returns infinity whenever f returns an error."
@@ -35,8 +41,12 @@
   (fn [& args]
     (try
       (apply f args)
-      (catch Exception e
-        Double/POSITIVE_INFINITY))))
+      #?(:clj
+         (catch Exception e
+           Double/POSITIVE_INFINITY))
+      #?(:cljs
+         (catch js/Error e
+           Double/POSITIVE_INFINITY)))))
 
 (defn partial-difference-quotient
   "Calculates the i-th partial difference quotient of f at v."

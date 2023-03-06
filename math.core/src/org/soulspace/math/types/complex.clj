@@ -1,21 +1,23 @@
-;;
-;;   Copyright (c) Ludger Solbach. All rights reserved.
-;;   The use and distribution terms for this software are covered by the
-;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
-;;   which can be found in the file license.txt at the root of this distribution.
-;;   By using this software in any fashion, you are agreeing to be bound by
-;;   the terms of this license.
-;;   You must not remove this notice, or any other, from this software.
-;;
+;;;;
+;;;;   Copyright (c) Ludger Solbach. All rights reserved.
+;;;;
+;;;;   The use and distribution terms for this software are covered by the
+;;;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+;;;;   which can be found in the file license.txt at the root of this distribution.
+;;;;   By using this software in any fashion, you are agreeing to be bound by
+;;;;   the terms of this license.
+;;;;
+;;;;   You must not remove this notice, or any other, from this software.
+;;;;
 
 (ns org.soulspace.math.types.complex
   "Contains the protocols and implementations for complex numbers."
   (:require [org.soulspace.math.core :as m]
             [org.soulspace.math.complex :as mc]))
 
-;;
-;; Protocols and Implementations for Complex Numbers
-;;
+;;;
+;;; Protocols and Implementations for Complex Numbers
+;;;
 
 (declare complex)
 (declare polar)
@@ -71,7 +73,7 @@
   (to-cartesian [p]
     (complex (mc/to-cartesian p))))
 
-
+;; constructors
 (defn complex
   "Creates a complex number from real and imaginary parts."
   ([m]
@@ -79,24 +81,15 @@
   ([r i]
    (->Complex r i)))
 
-(defn polar-complex
+(defn polar
   "Creates a complex number from polar coordinates."
-  [r phi]
-  (->PolarComplex r phi))
+  ([m]
+   (map->PolarComplex m))
+  ([r phi]
+   (->PolarComplex r phi)))
 
-; TODO define and use constants
+;; constants
+(def ZERO "The complex number zero." (complex 0 0))
+(def ONE "The complex number one." (complex 1 0))
+(def I "The complex number i" (complex 0 1))
 
-(defn zero
-  "Returns the complex number zero."
-  []
-  (complex 0 0))
-
-(defn one
-  "Returns the complex number one."
-  []
-  (complex 1 0))
-
-(defn i
-  "Returns the complex number i"
-  []
-  (complex 0 1))

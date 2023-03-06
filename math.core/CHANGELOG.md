@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+Version 0.8.0
+-------------
+* added Clojurescript implementation of core
+* moved host independent code to .cljc files
+* renamed constants to uppercase
+* refactored complex types
 
 Version 0.7.1
 -------------

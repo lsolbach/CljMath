@@ -1,21 +1,23 @@
-;;
-;;   Copyright (c) Ludger Solbach. All rights reserved.
-;;   The use and distribution terms for this software are covered by the
-;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
-;;   which can be found in the file license.txt at the root of this distribution.
-;;   By using this software in any fashion, you are agreeing to be bound by
-;;   the terms of this license.
-;;   You must not remove this notice, or any other, from this software.
-;;
-
+;;;;
+;;;;   Copyright (c) Ludger Solbach. All rights reserved.
+;;;;
+;;;;   The use and distribution terms for this software are covered by the
+;;;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+;;;;   which can be found in the file license.txt at the root of this distribution.
+;;;;   By using this software in any fashion, you are agreeing to be bound by
+;;;;   the terms of this license.
+;;;;
+;;;;   You must not remove this notice, or any other, from this software.
+;;;;
 (ns org.soulspace.math.methods
   (:require [org.soulspace.math.core :as m]))
 
-;;
-;; Mathemathical algorithms and methods
-;;
+#?(:clj
+   (set! *warn-on-reflection* true))
 
-(set! *warn-on-reflection* true)
+;;;
+;;; Mathemathical algorithms and methods
+;;;
 
 ;;
 ;; Number Theory
@@ -40,10 +42,18 @@
 ;;
 ;;
 ;;  
+(defn exp
+  "Calculates the exponential function."
+  [b n]
+  (cond
+    (= n 0) 1
+    (even? n) (m/sqr (exp b (/ n 2)))
+    :default (* b (exp b (- n 1)))))
+
 (defn round-up
   "Rounds a value."
   [x n]
-  (/ (m/floor (+ (* x (m/exp 10 n)) 0.5)) (m/exp 10 n)))
+  (/ (m/floor (+ (* x (exp 10 n)) 0.5)) (exp 10 n)))
 
 (defn close-enough?
   "Checks for a difference smaller than epsilon"
@@ -52,8 +62,9 @@
   ([x y epsilon]
    (< (m/abs (- x y)) epsilon)))
 
-(defn average-damp [f]
+(defn average-damp
   "Returns a function with average dampening for the given function."
+  [f]
   (fn [x] (m/avg x (f x))))
 
 (defn sum
@@ -119,17 +130,18 @@
              (neg? test-value) (recur f midpoint pos-point epsilon)
              :default midpoint))))))
 
-(defn half-intervall
-  "Half intervall method for the function f and values a and b."
+(defn half-interval
+  "Half interval method for the function f and values a and b."
   ([f a b]
-   (half-intervall f a b m/default-epsilon))
+   (half-interval f a b m/default-epsilon))
   ([f a b epsilon]
    (let [a-value (f a)
          b-value (f b)]
      (cond
        (and (neg? a-value) (pos? b-value)) (search-zero f a b epsilon)
        (and (neg? b-value) (pos? a-value)) (search-zero f b a epsilon)
-       :default (throw (IllegalArgumentException. (str "Values are not of opposite sign: " a " " b)))))))
+       :else (throw (ex-info "The values are not of opposite signs." {:a-value a-value 
+                                                                         :b-value b-value}))))))
 
 (defn fixed-point
   "Calculates a fixed point of the function f."

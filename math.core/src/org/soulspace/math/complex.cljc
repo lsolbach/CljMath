@@ -1,12 +1,14 @@
-;;
-;;   Copyright (c) Ludger Solbach. All rights reserved.
-;;   The use and distribution terms for this software are covered by the
-;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
-;;   which can be found in the file license.txt at the root of this distribution.
-;;   By using this software in any fashion, you are agreeing to be bound by
-;;   the terms of this license.
-;;   You must not remove this notice, or any other, from this software.
-;;
+;;;;
+;;;;   Copyright (c) Ludger Solbach. All rights reserved.
+;;;;
+;;;;   The use and distribution terms for this software are covered by the
+;;;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+;;;;   which can be found in the file license.txt at the root of this distribution.
+;;;;   By using this software in any fashion, you are agreeing to be bound by
+;;;;   the terms of this license.
+;;;;
+;;;;   You must not remove this notice, or any other, from this software.
+;;;;
 
 (ns org.soulspace.math.complex
   "Functions for complex numbers in cartesian or polar representation.
@@ -18,16 +20,16 @@
 ;;
 ;; Complex numbers
 ;;
-
-(set! *warn-on-reflection* true)
+#?(:clj
+   (set! *warn-on-reflection* true))
 
 ;;
 ;; Complex constants (in cartesian representation)
 ;;
 
-(def zero "The complex number zero in cartesian representation." {:real 0 :img 0})
-(def one  "The complex number one in cartesian representation."  {:real 1 :img 0})
-(def i    "The complex number i in cartesian representation"     {:real 0 :img 1})
+(def ZERO "The complex number zero in cartesian representation." {:real 0 :img 0})
+(def ONE  "The complex number one in cartesian representation."  {:real 1 :img 0})
+(def I    "The complex number i in cartesian representation"     {:real 0 :img 1})
 
 ;;
 ;; Conversion of representations
@@ -41,9 +43,9 @@
          (== (:img c) 0)) {:r   0
                            :phi 0}
     (== (:real c) 0)      {:r   (:img c)
-                           :phi (if (< (:img c) 0) (/ m/pi 2) (/ (* 3 m/pi) 2))}
+                           :phi (if (< (:img c) 0) (/ m/PI 2) (/ (* 3 m/PI) 2))}
     (< (:real c) 0)       {:r   (m/sqrt (+ (m/sqr (:real c)) (m/sqr (:img c))))
-                           :phi (+ m/pi (m/atan (/ (:img c) (:real c))))}
+                           :phi (+ m/PI (m/atan (/ (:img c) (:real c))))}
     :default              {:r   (m/sqrt (+ (m/sqr (:real c)) (m/sqr (:img c))))
                            :phi (m/atan (/ (:img c) (:real c)))}))
 

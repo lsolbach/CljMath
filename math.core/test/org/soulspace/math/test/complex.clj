@@ -1,25 +1,26 @@
-;;
-;;   Copyright (c) Ludger Solbach. All rights reserved.
-;;   The use and distribution terms for this software are covered by the
-;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
-;;   which can be found in the file license.txt at the root of this distribution.
-;;   By using this software in any fashion, you are agreeing to be bound by
-;;   the terms of this license.
-;;   You must not remove this notice, or any other, from this software.
-;;
-
+;;;;
+;;;;   Copyright (c) Ludger Solbach. All rights reserved.
+;;;;
+;;;;   The use and distribution terms for this software are covered by the
+;;;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+;;;;   which can be found in the file license.txt at the root of this distribution.
+;;;;   By using this software in any fashion, you are agreeing to be bound by
+;;;;   the terms of this license.
+;;;;
+;;;;   You must not remove this notice, or any other, from this software.
+;;;;
 (ns org.soulspace.math.test.complex
-  (:use [clojure.test]
-        [org.soulspace.math.complex]))
+  (:require [clojure.test :refer :all]
+            [org.soulspace.math.complex :refer :all]))
 
 (deftest zero-test
-  (is (= zero {:real 0 :img 0})))
+  (is (= ZERO {:real 0 :img 0})))
 
 (deftest one-test
-  (is (= one {:real 1 :img 0})))
+  (is (= ONE {:real 1 :img 0})))
 
 (deftest i-test
-  (is (= i {:real 0 :img 1})))
+  (is (= I {:real 0 :img 1})))
 
 (deftest arithmetics-test
   (are [x y] (= x y)

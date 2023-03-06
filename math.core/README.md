@@ -13,7 +13,7 @@ Usage
 
 Copyright
 ---------
-© 2011-2020 Ludger Solbach
+© 2011-2023 Ludger Solbach
 
 License
 -------
@@ -22,3 +22,4 @@ License
 Code Repository
 ---------------
 [CljMath on GitHub](https://github.com/lsolbach/CljMath)
+
