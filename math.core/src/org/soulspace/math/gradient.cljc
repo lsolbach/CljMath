@@ -17,9 +17,10 @@
 #?(:clj
    (set! *warn-on-reflection* true))
 
-;;
-;; Functions for gradients and gradient descent
-;;
+;;;
+;;; Functions for gradients and gradient descent
+;;;
+
 (def step-sizes [100 10 1 0.1 0.01 0.001 0.0001 0.00001])
 
 (defn safe-apply
@@ -84,7 +85,7 @@
     (map #(* -1 %) (apply f args))))
 
 (defn minimize-batch
-  "Calculates ."
+  "Minimizes the target function with gradient descent by looking at the whole data for each step."
   ([target-fn gradient-fn theta-0]
    (minimize-batch target-fn gradient-fn theta-0 m/default-epsilon))
   ([target-fn gradient-fn theta-0 tolerance]
@@ -106,13 +107,35 @@
   ([target-fn gradient-fn theta-0 tolerance]
    (minimize-batch (negated-fn target-fn) (negated-all-fn gradient-fn) theta-0 tolerance)))
 
+(defn gradient-step
+  "Takes a gradient step for each point in data."
+  [gradient-fn data theta alpha ]
+  (for [[x-i y-i] (shuffle data)]
+    (let [gradient-i (gradient-fn x-i y-i theta)]
+      (mv/substract theta (mv/scalar-product alpha gradient-i)))))
+
 (defn minimize-stochastic
-  "Calculates ."
+  "Minimizes the target function with stochastic gradient descent by looking at one data point at a time ."
+  "It works when the error functions are additive and is faster than minimize batch."
   ([target-fn gradient-fn x y theta-0]
    (minimize-stochastic target-fn gradient-fn x y theta-0 0.01))
-  ([target-fn gradient-fn x y theta-0 alpha-0]))
-    ; TODO implement
-    ; use (shuffle coll)
+  ([target-fn gradient-fn x y theta-0 alpha-0]
+   (let [data (map vector x y)]
+     (loop [theta theta-0
+            alpha alpha-0
+            min-theta nil
+            min-value ##Inf
+            iterations-without-improvements 0]
+       (if (< iterations-without-improvements 100)
+         ; still waiting for improvements
+         (let [value (reduce + (for [[x-i y-i] data]  (target-fn x-i y-i theta)))]
+           (if (< value min-value)
+             ; 
+             (recur (gradient-step gradient-fn data theta alpha) alpha-0 theta value 0)
+             (let [alpha (* alpha 0.9)]
+               (recur (gradient-step gradient-fn data theta alpha) alpha min-theta min-value (inc iterations-without-improvements)))))
+         ; no, improvements anymore, return the minimum
+         min-theta)))))
 
 (defn maximize-stochastic
   "Calculates ."
