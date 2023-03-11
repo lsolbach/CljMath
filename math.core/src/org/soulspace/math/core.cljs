@@ -191,7 +191,7 @@
   (* x x x))
 
 (defn avg
-  "Calculates the avarage of x and y or of the values of coll."
+  "Calculates the average of x and y or of the values of coll."
   ([x y]
    (/ (+ x y) 2))
   ([coll]
